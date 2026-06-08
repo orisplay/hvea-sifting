@@ -1,34 +1,24 @@
-# Charlie Dec 11 — first real-evidence Phase 1+2 run
+# Charlie Dec 11 — clean run (post traversal-fix)
 
-Date: 2026-06-07
-Image: charlie-2009-12-11.E01 (M57-Patents)
-Image SHA-256: (to be computed)
-OS variant graph: hvea_graph_winxp.json
+Date: 2026-06-08
+Image SHA-256: 7f4ae8676e28ed76034392c68831a0948b4b40788070ad2ed660f32b045e2b5b
+Graph: hvea_graph_winxp.json
 
-## Phase 1 (HVEA reasoning)
-- Inventory items (fiwalk): 40,065
-- Acquired (HVEA targets): 3,604
-- Multi-layer (also_serves): 694
-- Omitted: 36,384
-- Selectivity: ~9% of inventory acquired
+## Phase 1
+- Inventory (after .. filter): 33,882 (was 40,065 pre-filter)
+- Targets: 3,280; multi-layer: 568; omitted: 30,525
+- Layers: A2 B7 C562 D1 E149 F2549 G483 H4 I1 J1 (all ten)
 
-## Phase 1 layer coverage
-A: 2, B: 7, C: 730, D: 1, E: 157, F: 2691, G: 615, H: 4, I: 1, J: 1
-All ten layers represented. No graph adjustments required.
+## Phase 3 acquisition
+- Acquired: 3,055 files, 1.1 GB
+- not_found: 115, failed: 0
+- Duration: 25s
+- vs buggy run: 106,062 files / 15 GB / 298s
 
-## Phase 2 (SIFTING profile)
-- Groups: 4 (one per HVEA tier)
-- Tier I  (A, B):           9 criteria, no deps
-- Tier II (C):             730 criteria, deps [B]
-- Tier III (E, F, G):    2,859 criteria, deps [B, C]
-- Tier IV (H, I, J):         6 criteria, deps [B, C, D, E, G]
+## Finding
+Real selectivity ~1.1 GB acquired vs ~6 GB meaningful disk (~82% reduction),
+all ten HVEA layers preserved. Prior 15 GB was the /RECYCLER/.. traversal
+escape (fixed, commit 40d20fe). Layer F (browser, 2,549 targets) dominates —
+consistent with Charlie's patent-research browsing footprint.
 
-## Notes
-- Layer F dominance (2,691) reflects Charlie Dec 11's heavy USPTO/WIPO
-  browsing session documented in Paper II investigation notes.
-- $MFT and $UsnJrnl surfaced as filesystem-structure targets (Phase 1
-  structural-pattern emission worked as designed).
-- No path-format mismatches between fiwalk DFXML and XP graph patterns.
-
-## Status
-Phase 3 (acquisition) and Phase 5 (validation) not yet executed.
+## Status: Phase 5 validation pending.
