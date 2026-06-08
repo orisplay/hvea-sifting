@@ -157,6 +157,7 @@ def metric_storage_reduction(
 
 def metric_artifact_preservation(
     run: dict[str, Any], baseline_paths: set[str],
+    baseline_mount: Path | None = None,
 ) -> MetricResult:
     """
     Of the HVEA-targeted *files* that exist in the baseline, what fraction did
@@ -165,14 +166,26 @@ def metric_artifact_preservation(
     Files-only denominator. Directory container entries are excluded from both
     numerator and denominator: a directory is not itself an evidentiary
     artifact, and the acquisition harness never copies a directory entry (it
-    copies the files within). Counting directory targets as "missing" would
-    penalize the metric for container paths whose contents were fully
-    acquired. We therefore identify directory entries among the targets and
-    drop them before computing the ratio.
+    copies the files within). A target path is treated as a directory if any
+    other known path is strictly nested beneath it (path-prefix test).
 
-    A target path is treated as a directory if any other known path (target,
-    baseline, or acquired) is strictly nested beneath it (i.e. the target is a
-    path-prefix of another path). This requires no live mount.
+    Missing-file classification (requires the live mount). fiwalk reads the
+    NTFS Master File Table and lists every file *entry* it finds, including
+    entries whose data clusters have since been reused — "MFT ghosts." These
+    appear in the baseline inventory but have no recoverable data, so the
+    acquisition harness correctly finds nothing to copy. Such entries are not
+    preservation failures. For every targeted file that was not acquired, we
+    check the live mount and classify it:
+
+        data_absent : listed in the MFT/DFXML but absent on the live mount
+                      (a ghost; expected, not a failure)
+        genuine_miss: present on the live mount but not acquired
+                      (a real preservation gap — investigate)
+
+    We report two rates: a conservative rate against all file targets, and a
+    recoverable rate that excludes mount-verified data_absent ghosts. The
+    ghost count is reported as a first-class reconciling quantity so the gap
+    between the two rates is fully accounted for, never asserted.
     """
     profile_targets = set()
     for g in run["profile"]["groups"]:
@@ -184,40 +197,72 @@ def metric_artifact_preservation(
         for r in run["trace"] if r["decision"] == "acquired"
     }
 
-    # Universe of paths used to decide whether a target is a container.
     universe = set(baseline_paths) | acquired_paths | profile_targets
 
     def _is_directory(path: str) -> bool:
-        # A path is a directory if some other path is strictly nested under it.
         prefix = path.rstrip("/") + "/"
         for other in universe:
             if other != path and other.startswith(prefix):
                 return True
         return False
 
-    # Targets that exist in the baseline AND are files (not containers).
     targets_in_baseline = {p for p in profile_targets if p in baseline_paths}
     file_targets = {p for p in targets_in_baseline if not _is_directory(p)}
     dir_targets_excluded = len(targets_in_baseline) - len(file_targets)
 
     acquired_file_targets = {p for p in file_targets if p in acquired_paths}
+    missing = file_targets - acquired_file_targets
+
+    # Classify every missing file against the live mount.
+    data_absent: list[str] = []
+    genuine_miss: list[str] = []
+    classified = baseline_mount is not None and baseline_mount.exists()
+    if classified:
+        for p in missing:
+            rel = p.lstrip("/").replace("\\", "/")
+            on_mount = (baseline_mount / rel).exists()
+            (genuine_miss if on_mount else data_absent).append(p)
+    else:
+        # Without a mount we cannot classify; treat all as unclassified.
+        data_absent = []
+        genuine_miss = []
 
     n = len(file_targets)
     captured = len(acquired_file_targets)
-    fraction = (captured / n) if n else 1.0
+    conservative = (captured / n) if n else 1.0
+
+    # Recoverable rate excludes mount-verified ghosts from the denominator.
+    if classified:
+        recoverable_denom = n - len(data_absent)
+        recoverable = (captured / recoverable_denom) if recoverable_denom else 1.0
+    else:
+        recoverable = None
+
+    # Pass/fail is judged on the recoverable rate when we could classify,
+    # otherwise on the conservative rate.
+    judged = recoverable if (classified and recoverable is not None) else conservative
+    pass_fail = "pass" if judged >= 0.95 else ("partial" if judged >= 0.80 else "fail")
+
+    detail = {
+        "hvea_file_targets_in_baseline": n,
+        "acquired": captured,
+        "directory_targets_excluded": dir_targets_excluded,
+        "missing_total": len(missing),
+        "data_absent_ghosts": len(data_absent),
+        "genuine_misses": len(genuine_miss),
+        "classification_performed": classified,
+        "recoverable_preservation": (round(recoverable, 6) if recoverable is not None else None),
+        "genuine_miss_sample": sorted(genuine_miss)[:20],
+        "data_absent_sample": sorted(data_absent)[:10],
+    }
 
     return MetricResult(
         metric="artifact_preservation",
         source="Cihan, Phase 5",
-        value=round(fraction, 6),
-        units="fraction (files only)",
-        detail={
-            "hvea_file_targets_in_baseline": n,
-            "acquired": captured,
-            "directory_targets_excluded": dir_targets_excluded,
-            "missing": sorted(file_targets - acquired_file_targets)[:20],
-        },
-        pass_fail="pass" if fraction >= 0.95 else ("partial" if fraction >= 0.80 else "fail"),
+        value=round(conservative, 6),
+        units="fraction (files only; conservative)",
+        detail=detail,
+        pass_fail=pass_fail,
     )
 
 
@@ -389,7 +434,7 @@ def validate(
         metrics.append(metric_storage_reduction(run, baseline_image))
     if baseline_inventory:
         baseline_paths = load_inventory_paths(baseline_inventory)
-        metrics.append(metric_artifact_preservation(run, baseline_paths))
+        metrics.append(metric_artifact_preservation(run, baseline_paths, baseline_mount))
     metrics.append(metric_completeness(run))
     if baseline_mount:
         metrics.append(metric_integrity(run, baseline_mount))
@@ -444,6 +489,25 @@ def main(argv: list[str] | None = None) -> int:
     for m_name, m_val in summary.items():
         logger.info("  %-24s %s (%s) [%s]",
                     m_name, m_val["value"], m_val["units"], m_val["pass_fail"])
+
+    # Surface the artifact-preservation decomposition explicitly.
+    for m in report["metrics"]:
+        if m["metric"] == "artifact_preservation":
+            d = m["detail"]
+            if d.get("classification_performed"):
+                logger.info(
+                    "  preservation detail: %d file targets, %d acquired, "
+                    "%d data-absent ghosts, %d genuine misses; "
+                    "recoverable rate = %s",
+                    d["hvea_file_targets_in_baseline"], d["acquired"],
+                    d["data_absent_ghosts"], d["genuine_misses"],
+                    d["recoverable_preservation"],
+                )
+                if d["genuine_misses"]:
+                    logger.warning(
+                        "  %d GENUINE misses (on mount but not acquired) — investigate: %s",
+                        d["genuine_misses"], d["genuine_miss_sample"][:5],
+                    )
     return 0
 
 
