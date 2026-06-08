@@ -79,16 +79,35 @@ def _glob_to_regex(pattern: str) -> re.Pattern[str]:
 def _resolve_source(mount: Path, source_path: str) -> Path | None:
     """
     Resolve a logical source_path (as recorded in the profile) to a concrete
-    file on the read-only mount. Returns None if the file is missing.
+    file on the read-only mount. Returns None if the file is missing or if the
+    path attempts to escape the mount boundary.
+
+    Defense in depth: even though Phase 1 now filters '.'/'..' inventory
+    entries, the harness independently refuses any source_path containing a
+    traversal component, and verifies the final resolved path stays within
+    the mount. This prevents a malformed profile from acquiring the whole
+    disk via '/RECYCLER/..' -> partition root.
     """
     rel = source_path.lstrip("/").replace("\\", "/")
+
+    # Reject any traversal component outright.
+    parts = [p for p in rel.split("/") if p != ""]
+    if any(p in (".", "..") for p in parts):
+        return None
+
     candidate = mount / rel
     if candidate.exists():
+        resolved = candidate.resolve()
+        mount_resolved = mount.resolve()
+        # Confirm the resolved path is inside the mount.
+        if not str(resolved).startswith(str(mount_resolved)):
+            return None
         return candidate
+
     # Case-insensitive fallback — Windows filesystems mount case-preserving
     # on Linux but the inventory may have a different case than disk.
     parent = mount
-    for part in rel.split("/"):
+    for part in parts:
         if not parent.exists():
             return None
         match = None
@@ -99,7 +118,12 @@ def _resolve_source(mount: Path, source_path: str) -> Path | None:
         if match is None:
             return None
         parent = match
-    return parent if parent.exists() else None
+    if not parent.exists():
+        return None
+    # Boundary check on the resolved fallback path too.
+    if not str(parent.resolve()).startswith(str(mount.resolve())):
+        return None
+    return parent
 
 
 # ---------------------------------------------------------------------------
@@ -183,11 +207,19 @@ def acquire_profile(
     trace: list[AcquisitionRecord] = []
     counters = {
         "acquired": 0,
+        "also_acquired_dedup": 0,
         "skipped_not_found": 0,
         "skipped_policy": 0,
         "failed": 0,
         "bytes_acquired": 0,
     }
+
+    # Dedup: a single physical file may match multiple HVEA layers (e.g. a
+    # document in a Temp dir matched by both Layer C payload and Layer G
+    # residue patterns). We acquire the bytes ONCE, keyed by the file's
+    # mount-relative path, and record subsequent matches as 'also_acquired'
+    # for cross-layer explainability without duplicating storage.
+    acquired_paths: dict[str, str] = {}  # mount-relative source -> output_path
 
     # Iterate groups in tier order; within each group, criteria are already
     # sequence-ordered by the Phase 2 mapper.
@@ -245,6 +277,36 @@ def acquire_profile(
                 files = [src]
 
             for fpath in files:
+                # Mount-relative key for dedup.
+                try:
+                    mount_rel = str(fpath.relative_to(mount))
+                except ValueError:
+                    mount_rel = str(fpath)
+
+                # Already acquired by an earlier criterion/layer? Record the
+                # cross-layer relevance but do not recopy the bytes.
+                if mount_rel in acquired_paths:
+                    trace.append(AcquisitionRecord(
+                        source_path=mount_rel,
+                        decision="also_acquired",
+                        hvea_layers=criterion["hvea_layers"],
+                        hvea_tiers=criterion["hvea_tiers"],
+                        primary_layer=primary_layer,
+                        sequence=seq,
+                        group_id=group_id,
+                        output_path=acquired_paths[mount_rel],
+                        bytes_acquired=0,
+                        sha256=None,
+                        rationale=(
+                            "Already acquired by an earlier layer/criterion; "
+                            "recorded as additional layer-of-relevance for "
+                            "cross-layer explainability. Bytes not duplicated. "
+                            + criterion["rationale"]
+                        ),
+                    ))
+                    counters["also_acquired_dedup"] += 1
+                    continue
+
                 rel_under_source = fpath.relative_to(src) if src.is_dir() else fpath.name
                 # Layout: out_dir / partial_image / tier_X / <primary_layer> / <original_path>
                 if src.is_dir():
@@ -255,8 +317,9 @@ def acquire_profile(
 
                 try:
                     sha, nbytes = copy_with_hash(fpath, dst)
+                    acquired_paths[mount_rel] = str(dst.relative_to(out_dir))
                     trace.append(AcquisitionRecord(
-                        source_path=str(fpath.relative_to(mount)) if fpath.is_relative_to(mount) else str(fpath),
+                        source_path=mount_rel,
                         decision="acquired",
                         hvea_layers=criterion["hvea_layers"],
                         hvea_tiers=criterion["hvea_tiers"],

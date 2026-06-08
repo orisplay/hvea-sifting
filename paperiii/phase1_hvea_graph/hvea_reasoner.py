@@ -226,6 +226,22 @@ def load_graph(path: Path) -> HveaGraph:
 # Inventory loader (DFXML — fiwalk output) with a JSONL fallback
 # ---------------------------------------------------------------------------
 
+def _is_traversal_artifact(normalized_path: str) -> bool:
+    """
+    True if the path is a directory-traversal pseudo-entry ('.' or '..') or
+    contains a '..' component anywhere.
+
+    fiwalk emits literal '.' and '..' entries for every directory it walks.
+    These are NOT real files. If a layer pattern like '/RECYCLER/**' matches
+    '/RECYCLER/..', the '..' resolves to the PARENT directory — escaping the
+    intended acquisition boundary and, when the acquisition harness recurses,
+    pulling in the entire disk. Any path component equal to '.' or '..' must
+    be rejected at inventory-load time.
+    """
+    parts = [p for p in normalized_path.split("/") if p != ""]
+    return any(part in (".", "..") for part in parts)
+
+
 def load_inventory(path: Path) -> list[InventoryItem]:
     """
     Load a file inventory.
@@ -234,6 +250,10 @@ def load_inventory(path: Path) -> list[InventoryItem]:
       - DFXML (.xml / .dfxml) — fiwalk output from The Sleuth Kit
       - JSONL  (.jsonl)        — one {path, size, allocated} per line
                                  (useful for tests and synthetic runs)
+
+    Directory-traversal pseudo-entries ('.' and '..') emitted by fiwalk are
+    filtered out — they are not real files and matching them escapes the
+    intended acquisition boundary.
     """
     suffix = path.suffix.lower()
     if suffix in {".jsonl", ".ndjson"}:
@@ -243,6 +263,12 @@ def load_inventory(path: Path) -> list[InventoryItem]:
             if not line:
                 continue
             d = json.loads(line)
+            jpath = d["path"]
+            # Normalize for the traversal check (JSONL paths may or may not
+            # have a leading slash).
+            jnorm = jpath if jpath.startswith("/") else "/" + jpath
+            if _is_traversal_artifact(jnorm):
+                continue
             items.append(InventoryItem(
                 path=d["path"],
                 size=int(d.get("size", 0)),
@@ -286,6 +312,9 @@ def load_inventory(path: Path) -> list[InventoryItem]:
             normalized = filename.replace("\\", "/")
             if not normalized.startswith("/"):
                 normalized = "/" + normalized
+            # Reject fiwalk's '.' / '..' directory-traversal pseudo-entries.
+            if _is_traversal_artifact(normalized):
+                continue
             items.append(InventoryItem(
                 path=normalized, size=size, allocated=allocated, inode=inode,
             ))
