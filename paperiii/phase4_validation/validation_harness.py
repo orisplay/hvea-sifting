@@ -159,36 +159,63 @@ def metric_artifact_preservation(
     run: dict[str, Any], baseline_paths: set[str],
 ) -> MetricResult:
     """
-    Of the HVEA-targeted artifacts that exist in the baseline, what fraction
-    did the partial-image acquisition actually capture?
+    Of the HVEA-targeted *files* that exist in the baseline, what fraction did
+    the partial-image acquisition actually capture?
+
+    Files-only denominator. Directory container entries are excluded from both
+    numerator and denominator: a directory is not itself an evidentiary
+    artifact, and the acquisition harness never copies a directory entry (it
+    copies the files within). Counting directory targets as "missing" would
+    penalize the metric for container paths whose contents were fully
+    acquired. We therefore identify directory entries among the targets and
+    drop them before computing the ratio.
+
+    A target path is treated as a directory if any other known path (target,
+    baseline, or acquired) is strictly nested beneath it (i.e. the target is a
+    path-prefix of another path). This requires no live mount.
     """
     profile_targets = set()
     for g in run["profile"]["groups"]:
         for c in g["criteria"]:
             profile_targets.add(c["source_path"])
 
-    targets_in_baseline = {p for p in profile_targets if p in baseline_paths}
     acquired_paths = {
-        # Trace stores paths relative to mount; profile source_paths are
-        # absolute-ish. We normalize to leading slash for comparison.
         ("/" + r["source_path"].lstrip("/"))
         for r in run["trace"] if r["decision"] == "acquired"
     }
-    acquired_in_baseline = {p for p in targets_in_baseline if p in acquired_paths}
 
-    n = len(targets_in_baseline)
-    captured = len(acquired_in_baseline)
+    # Universe of paths used to decide whether a target is a container.
+    universe = set(baseline_paths) | acquired_paths | profile_targets
+
+    def _is_directory(path: str) -> bool:
+        # A path is a directory if some other path is strictly nested under it.
+        prefix = path.rstrip("/") + "/"
+        for other in universe:
+            if other != path and other.startswith(prefix):
+                return True
+        return False
+
+    # Targets that exist in the baseline AND are files (not containers).
+    targets_in_baseline = {p for p in profile_targets if p in baseline_paths}
+    file_targets = {p for p in targets_in_baseline if not _is_directory(p)}
+    dir_targets_excluded = len(targets_in_baseline) - len(file_targets)
+
+    acquired_file_targets = {p for p in file_targets if p in acquired_paths}
+
+    n = len(file_targets)
+    captured = len(acquired_file_targets)
     fraction = (captured / n) if n else 1.0
 
     return MetricResult(
         metric="artifact_preservation",
         source="Cihan, Phase 5",
         value=round(fraction, 6),
-        units="fraction",
+        units="fraction (files only)",
         detail={
-            "hvea_targets_in_baseline": n,
+            "hvea_file_targets_in_baseline": n,
             "acquired": captured,
-            "missing": sorted(targets_in_baseline - acquired_in_baseline)[:20],
+            "directory_targets_excluded": dir_targets_excluded,
+            "missing": sorted(file_targets - acquired_file_targets)[:20],
         },
         pass_fail="pass" if fraction >= 0.95 else ("partial" if fraction >= 0.80 else "fail"),
     )
