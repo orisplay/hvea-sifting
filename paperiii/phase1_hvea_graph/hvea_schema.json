@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HVEA Dependency Graph",
+  "description": "Formal representation of the HVEA pyramid model from Paper II. Encodes the four evidentiary tiers (I-IV), the ten operational layers (A-J), their interpretive dependencies, and the typical sources/artifacts that populate each layer. Consumed by the Phase 3 acquisition reasoning module.",
+  "type": "object",
+  "required": ["version", "tiers", "layers", "dependencies"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version. Bump on breaking changes."
+    },
+    "model": {
+      "type": "string",
+      "description": "Human-readable model identifier, e.g. 'HVEA Pyramid v1 (Paper II)'."
+    },
+    "tiers": {
+      "type": "array",
+      "description": "The four HVEA tiers in dependency order. Tier index corresponds to interpretive reliance: lower-numbered tiers ground higher-numbered ones.",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "roman", "name", "function"],
+        "properties": {
+          "id":       { "type": "integer", "minimum": 1, "maximum": 4 },
+          "roman":    { "type": "string", "enum": ["I", "II", "III", "IV"] },
+          "name":     { "type": "string" },
+          "function": { "type": "string", "description": "Evidentiary role this tier plays in the dependency hierarchy." },
+          "priority": {
+            "type": "integer",
+            "description": "Acquisition priority. Lower number = acquired earlier. Tier I = 1, Tier IV = 4 in canonical model."
+          }
+        }
+      }
+    },
+    "layers": {
+      "type": "array",
+      "description": "The ten operational substrate layers A-J. Each layer belongs to exactly one tier.",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "tier", "purpose", "core_artifacts", "typical_sources"],
+        "properties": {
+          "id":      { "type": "string", "enum": ["A","B","C","D","E","F","G","H","I","J"] },
+          "name":    { "type": "string" },
+          "tier":    { "type": "integer", "minimum": 1, "maximum": 4 },
+          "purpose": { "type": "string", "description": "Investigative function this layer serves." },
+          "core_artifacts": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Core artifact classes belonging to this layer (per HVEA Table 3)."
+          },
+          "typical_sources": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Where these artifacts physically reside (registry hives, directories, system structures)."
+          },
+          "acquisition_paths": {
+            "type": "array",
+            "description": "Concrete filesystem paths or structures Phase 2 will map to SIFTING acquisition profiles. Wildcards allowed.",
+            "items": {
+              "type": "object",
+              "required": ["pattern", "scope"],
+              "properties": {
+                "pattern": { "type": "string", "description": "Path, glob, or structural identifier (e.g. '$MFT', '/Windows/System32/config/SAM')." },
+                "scope":   { "type": "string", "enum": ["file", "directory", "filesystem_structure", "registry_hive", "log_repository"] },
+                "allocated_only": { "type": "boolean", "default": true, "description": "Whether this pattern is restricted to allocated regions. False for artifacts that may live in unallocated space." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Directed edges in the dependency graph. An edge from X to Y means: artifacts in layer Y are interpreted in the context of artifacts in layer X. Y depends on X. Acquisition order should respect these edges (X before Y).",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "type", "rationale"],
+        "properties": {
+          "from": { "type": "string", "enum": ["A","B","C","D","E","F","G","H","I","J"] },
+          "to":   { "type": "string", "enum": ["A","B","C","D","E","F","G","H","I","J"] },
+          "type": {
+            "type": "string",
+            "enum": ["attribution", "semantic_context", "temporal_anchor", "corroboration"],
+            "description": "Nature of the dependency. 'attribution' = identity grounding. 'semantic_context' = interpretive meaning. 'temporal_anchor' = chronology grounding. 'corroboration' = independent validation."
+          },
+          "rationale": { "type": "string", "description": "Why this dependency holds, grounded in HVEA Paper II text." },
+          "strength": {
+            "type": "string",
+            "enum": ["strong", "moderate", "supplementary"],
+            "default": "strong",
+            "description": "Strength of the interpretive reliance."
+          }
+        }
+      }
+    },
+    "convergence_patterns": {
+      "type": "array",
+      "description": "Documented multi-source convergence patterns from Paper II (e.g. the three-source timestamp convergence B/D/F-H/I-J). Used by the explainability module to surface corroborative evidence.",
+      "items": {
+        "type": "object",
+        "required": ["name", "layers", "function"],
+        "properties": {
+          "name":     { "type": "string" },
+          "layers":   { "type": "array", "items": { "type": "string" } },
+          "tolerance":{ "type": "string", "description": "Convergence tolerance, e.g. '30 seconds'." },
+          "function": { "type": "string" }
+        }
+      }
+    }
+  }
+}

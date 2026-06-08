@@ -1,0 +1,218 @@
+{
+  "version": "1.0.0",
+  "model": "HVEA Pyramid - Windows XP variant (M57-Patents Charlie, Jo, Pat test environment)",
+  "os_variant": "windows_xp",
+  "notes": "Paths reflect Windows XP SP3 conventions confirmed against M57 images (Paper II Section 4.1). User profile layout: /Documents and Settings/<name>/. Event logs as /WINDOWS/system32/config/*.evt. Recycle bin at /RECYCLER/<SID>/. Outlook Express identities under Local Settings/Application Data/Identities/{GUID}/Microsoft/Outlook Express/.",
+  "tiers": [
+    {
+      "id": 1, "roman": "I",
+      "name": "Attribution and Environment Anchor",
+      "function": "Establishes identity and configuration context. All higher tiers rely on Tier I for interpretive stability.",
+      "priority": 1
+    },
+    {
+      "id": 2, "roman": "II",
+      "name": "Primary Evidentiary Object Layer",
+      "function": "Contains the semantic focus of investigation: user-generated artifacts and outward interaction indicators.",
+      "priority": 2
+    },
+    {
+      "id": 3, "roman": "III",
+      "name": "Behavioral Contextualization",
+      "function": "Bridges attribution and payload: execution chronology, application interaction, deletion residues.",
+      "priority": 3
+    },
+    {
+      "id": 4, "roman": "IV",
+      "name": "System-Level Independent Corroboration",
+      "function": "Provides structural validation independent of semantic payload interpretation.",
+      "priority": 4
+    }
+  ],
+  "layers": [
+    {
+      "id": "A",
+      "name": "System & Hardware Baseline",
+      "tier": 1,
+      "purpose": "Establish the operating environment required for interpretation (OS version, file system type, disk layout, installed-program baseline, system time configuration).",
+      "core_artifacts": ["OS version", "file system type", "disk layout", "installed programs baseline", "system time configuration"],
+      "typical_sources": ["XP registry hives (SYSTEM, SOFTWARE)", "system metadata"],
+      "acquisition_paths": [
+        { "pattern": "/WINDOWS/system32/config/SYSTEM",   "scope": "registry_hive" },
+        { "pattern": "/WINDOWS/system32/config/SOFTWARE", "scope": "registry_hive" }
+      ]
+    },
+    {
+      "id": "B",
+      "name": "User & Machine Identity Context",
+      "tier": 1,
+      "purpose": "Defines attribution scope and identity anchoring (user accounts/SIDs, profile directories, registry system hives, group membership, machine identifiers).",
+      "core_artifacts": ["user accounts/SIDs", "profile directories", "registry hives", "group membership", "machine identifiers"],
+      "typical_sources": ["SAM, SECURITY hives", "NTUSER.DAT per profile", "Documents and Settings directories"],
+      "acquisition_paths": [
+        { "pattern": "/WINDOWS/system32/config/SAM",                 "scope": "registry_hive" },
+        { "pattern": "/WINDOWS/system32/config/SECURITY",            "scope": "registry_hive" },
+        { "pattern": "/Documents and Settings/*/NTUSER.DAT",         "scope": "registry_hive" },
+        { "pattern": "/Documents and Settings/*/Local Settings/Application Data/Microsoft/UsrClass.dat", "scope": "registry_hive" }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "User Content (Evidentiary Payload)",
+      "tier": 2,
+      "purpose": "Recover primary evidentiary objects under identity attribution. Contains documents, media, financial records, archives, downloads.",
+      "core_artifacts": ["documents", "media files", "financial records", "archives", "downloads"],
+      "typical_sources": ["My Documents, Desktop, Downloads under user profile"],
+      "acquisition_paths": [
+        { "pattern": "/Documents and Settings/*/My Documents/**", "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/Desktop/**",      "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/My Documents/Downloads/**", "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/Local Settings/Temp/**",    "scope": "directory",
+          "note": "Temp content overlaps with G but documents in temp count as payload during active sessions." }
+      ]
+    },
+    {
+      "id": "D",
+      "name": "Network Interaction Presence",
+      "tier": 2,
+      "purpose": "Identify boundary-crossing activity and external interaction context. XP stores DHCP and network profile data in the SYSTEM hive (Tcpip\\Parameters\\Interfaces, NetworkList absent in XP).",
+      "core_artifacts": ["DHCP lease records", "network interface configuration", "TCP/IP settings"],
+      "typical_sources": ["SYSTEM hive Tcpip keys", "NIC configuration in registry"],
+      "acquisition_paths": [
+        { "pattern": "/WINDOWS/system32/config/SYSTEM", "scope": "registry_hive",
+          "note": "Tcpip\\Parameters\\Interfaces and Services keys; co-acquired with Layer A SYSTEM hive." }
+      ]
+    },
+    {
+      "id": "E",
+      "name": "Execution & Recency Telemetry",
+      "tier": 3,
+      "purpose": "Reconstruct execution chronology linking identity to payload access. Prefetch is the primary XP source (no Amcache or Shimcache until Win7+). UserAssist key in NTUSER.DAT records executed-program counts and timestamps.",
+      "core_artifacts": ["Prefetch files (.pf)", "UserAssist entries in NTUSER.DAT", "Recent shortcuts (.lnk)"],
+      "typical_sources": ["/WINDOWS/Prefetch/", "Local Settings/Application Data/Microsoft/Windows/UserAssist"],
+      "acquisition_paths": [
+        { "pattern": "/WINDOWS/Prefetch/**", "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/Recent/**", "scope": "directory",
+          "note": "XP stores Recent shortcuts directly under the profile, not under AppData like later Windows." }
+      ]
+    },
+    {
+      "id": "F",
+      "name": "Browser & Application Interaction",
+      "tier": 3,
+      "purpose": "Contextualize acquisition, research, and dissemination behavior. M57 investigations show IE (index.dat), Firefox (places.sqlite, cookies.sqlite), and webmail browsing as the dominant browser footprints.",
+      "core_artifacts": ["IE index.dat", "Firefox sqlite databases", "browser cache", "cookies", "history"],
+      "typical_sources": ["IE Temporary Internet Files", "Firefox profile directories", "Outlook Express identities for webmail-adjacent artifacts"],
+      "acquisition_paths": [
+        { "pattern": "/Documents and Settings/*/Local Settings/Temporary Internet Files/**", "scope": "directory",
+          "note": "IE cache and index.dat. Note: NTFS may protect this directory; mount with show_sys_files." },
+        { "pattern": "/Documents and Settings/*/Local Settings/History/**",                  "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/Cookies/**",                                 "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/Application Data/Mozilla/Firefox/Profiles/**", "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/Local Settings/Application Data/Mozilla/Firefox/Profiles/**", "scope": "directory",
+          "note": "Firefox cache lives under Local Settings; profile under Application Data." },
+        { "pattern": "/Documents and Settings/*/Local Settings/Application Data/Identities/**", "scope": "directory",
+          "note": "Outlook Express identities under {GUID}/Microsoft/Outlook Express/. Contains .dbx mail stores and Pop3uidl files." }
+      ]
+    },
+    {
+      "id": "G",
+      "name": "Deletion & Transient Residues",
+      "tier": 3,
+      "purpose": "Detect deletion intent and artifact lifecycle behavior. XP uses RECYCLER not $Recycle.Bin; INFO2 file tracks deletion metadata. Temp files in profile-local Temp paths.",
+      "core_artifacts": ["RECYCLER per-SID directories", "INFO2 deletion metadata", "Dc<n>.* renamed deletions", "temp files"],
+      "typical_sources": ["/RECYCLER/", "Local Settings/Temp/"],
+      "acquisition_paths": [
+        { "pattern": "/RECYCLER/**",                                      "scope": "directory", "allocated_only": false,
+          "note": "XP Recycle Bin convention: /RECYCLER/<SID>/Dc<n>.<ext> plus an INFO2 index. May persist after emptying in unallocated space." },
+        { "pattern": "/Documents and Settings/*/Local Settings/Temp/**",  "scope": "directory" },
+        { "pattern": "/Documents and Settings/*/Local Settings/Application Data/Microsoft/Windows/UserData/**", "scope": "directory" }
+      ]
+    },
+    {
+      "id": "H",
+      "name": "Event Logs (System Temporal Chronology)",
+      "tier": 4,
+      "purpose": "Independently corroborate authentication, boot, and service chronology. XP uses the legacy .evt format under WINDOWS/system32/config, not the .evtx format introduced with Vista.",
+      "core_artifacts": ["SecEvent.Evt", "SysEvent.Evt", "AppEvent.Evt"],
+      "typical_sources": ["XP event log files in system32/config"],
+      "acquisition_paths": [
+        { "pattern": "/WINDOWS/system32/config/SecEvent.Evt", "scope": "file" },
+        { "pattern": "/WINDOWS/system32/config/SysEvent.Evt", "scope": "file" },
+        { "pattern": "/WINDOWS/system32/config/AppEvent.Evt", "scope": "file" },
+        { "pattern": "/WINDOWS/system32/config/*.evt",        "scope": "log_repository",
+          "note": "Catch-all for any additional .evt files (e.g. internet explorer, DNS service)." }
+      ]
+    },
+    {
+      "id": "I",
+      "name": "NTFS Metadata (Structural Ground Truth)",
+      "tier": 4,
+      "purpose": "Validate file lifecycle and structural consistency independent of semantic interpretation. $MFT entries, MAC timestamps, structural attributes.",
+      "core_artifacts": ["$MFT entries", "MAC timestamps", "structural attributes"],
+      "typical_sources": ["NTFS metadata structures"],
+      "acquisition_paths": [
+        { "pattern": "$MFT", "scope": "filesystem_structure", "allocated_only": false }
+      ]
+    },
+    {
+      "id": "J",
+      "name": "USN Journal & File Change Chronology",
+      "tier": 4,
+      "purpose": "Reconstruct fine-grained file-system change chronology and concealment behavior. XP UsnJrnl timestamps have known parsing quirks (epoch base differs); use file-name evidence as primary signal.",
+      "core_artifacts": ["$UsnJrnl entries", "structural change indicators"],
+      "typical_sources": ["NTFS journaling artifacts"],
+      "acquisition_paths": [
+        { "pattern": "$Extend/$UsnJrnl:$J", "scope": "filesystem_structure", "allocated_only": false,
+          "note": "$LogFile excluded; supports transactional crash recovery, not evidentiary chronology. XP parsing caveat documented in Jo investigation notes." }
+      ]
+    }
+  ],
+  "dependencies": [
+    {"from":"A","to":"B","type":"semantic_context","strength":"strong",
+     "rationale":"Identity context (B) is interpreted within the operating environment baseline (A). Without A, B's SIDs and profile paths lack environmental grounding."},
+    {"from":"B","to":"C","type":"attribution","strength":"strong",
+     "rationale":"User content (C) requires identity attribution from B. Documents and downloads cannot be reliably associated with a specific user without B's SID and profile context."},
+    {"from":"B","to":"D","type":"attribution","strength":"strong",
+     "rationale":"Network interaction (D) requires attribution boundary from B to associate boundary-crossing activity with an identity."},
+    {"from":"B","to":"E","type":"attribution","strength":"strong",
+     "rationale":"Execution telemetry (E) links identity to payload access; the identity anchor is B."},
+    {"from":"C","to":"E","type":"semantic_context","strength":"strong",
+     "rationale":"Execution telemetry (E) is interpretively about access and handling of payload (C). Without C, E events lack semantic targets."},
+    {"from":"B","to":"F","type":"attribution","strength":"strong",
+     "rationale":"Browser interaction (F) requires user attribution from B; browser profiles and Outlook Express identities live under user-account paths."},
+    {"from":"C","to":"G","type":"semantic_context","strength":"strong",
+     "rationale":"Deletion residues (G) reflect post-creation handling of payload (C). G's interpretive value depends on what was deleted relative to C. M57 investigations show Jo's Pop3uidl.bak in RECYCLER as a Layer C-to-G linkage."},
+    {"from":"B","to":"G","type":"attribution","strength":"strong",
+     "rationale":"RECYCLER entries are SID-scoped (RECYCLER/<SID>/...); G requires B for user attribution."},
+    {"from":"B","to":"H","type":"corroboration","strength":"strong",
+     "rationale":"Three-source convergence pattern from Paper II: SAM last-login (B), NIC LastWrite (D), event log session record (H) converge to corroborate session attribution."},
+    {"from":"D","to":"H","type":"corroboration","strength":"strong",
+     "rationale":"Three-source convergence pattern: H corroborates D's network presence by recording the session in which network activity occurred."},
+    {"from":"E","to":"H","type":"temporal_anchor","strength":"strong",
+     "rationale":"Event logs (H) anchor execution telemetry (E) chronologically; H's logon session timestamps validate E's Prefetch timestamps."},
+    {"from":"C","to":"I","type":"temporal_anchor","strength":"strong",
+     "rationale":"NTFS metadata (I) provides structural ground truth for payload (C); MAC timestamps in $MFT validate semantic claims about file creation and modification."},
+    {"from":"G","to":"I","type":"corroboration","strength":"strong",
+     "rationale":"I corroborates G: $MFT entries persist after deletion and validate RECYCLER chronology."},
+    {"from":"C","to":"J","type":"temporal_anchor","strength":"strong",
+     "rationale":"USN journal (J) confirms creation, modification, and deletion chronology for payload (C). Paper II walkthroughs cite $UsnJrnl as the precise timestamp source despite XP epoch parsing caveats."},
+    {"from":"G","to":"J","type":"corroboration","strength":"strong",
+     "rationale":"J independently corroborates G: $UsnJrnl records deletion events with reason codes, validating RECYCLER's claim about what was deleted and when."},
+    {"from":"I","to":"J","type":"corroboration","strength":"moderate",
+     "rationale":"I (MFT) and J (USN journal) provide complementary structural views; J references MFT entries by record number."}
+  ],
+  "convergence_patterns": [
+    {
+      "name": "Three-source session convergence",
+      "layers": ["B","D","H"],
+      "tolerance": "30 seconds",
+      "function": "Paper II's defensible reconstruction standard: SAM last-login (B), NIC LastWrite (D), and event log session record (H) agreeing within 30 seconds corroborate session attribution and chronology. Confirmed against Pat Nov 16 (Nov 13 22:04Z) and Pat Nov 17 (Nov 17 02:27Z) in M57 investigations."
+    },
+    {
+      "name": "Payload lifecycle corroboration",
+      "layers": ["C","I","J"],
+      "function": "User content (C) validated by NTFS metadata (I) and USN journal entries (J) to confirm creation, modification, and deletion chronology independent of semantic claims."
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+# ============================================================================
+# Paper III repository — .gitignore
+# ============================================================================
+# Philosophy:
+#   - Track code, configuration, documentation, and small reports.
+#   - Do not track evidence (E01 sources, DFXML inventories, partial images).
+#   - Do not track per-run reasoning traces (volume; can be huge across 8 images).
+#   - Do track per-run validation_report.json and defensibility_report.json
+#     (small, structured, and they ARE Paper III findings).
+# ============================================================================
+
+
+# ---------------------------------------------------------------------------
+# Forensic evidence and derived inventories — never in git
+# ---------------------------------------------------------------------------
+
+# Disk image sources of any format
+*.E0?
+*.E[1-9][0-9]
+*.dd
+*.raw
+*.img
+*.iso
+*.vhd
+*.vmdk
+
+# libewf segment metadata
+*.E01.csv
+*.E01.txt
+
+# Baseline DFXML inventories — regenerable, 50-500 MB each
+*.dfxml
+*.dfxml.xml
+
+# Mount-point shadows (just in case anyone accidentally adds these)
+mounts/
+*-ro/
+*-ewf/
+
+
+# ---------------------------------------------------------------------------
+# Run outputs — partial images and bulky traces excluded; reports included
+# ---------------------------------------------------------------------------
+
+# Partial-image trees produced by Phase 3 acquisition — can be enormous
+runs/*/partial_image/
+runs/*_baseline/partial_image/
+
+# Per-acquisition raw trace (can be hundreds of MB across all images)
+runs/*/acquisition_trace.jsonl
+
+# Phase 1 reasoning traces (one record per inventory item — Charlie alone produces ~40k records)
+runs/*_hvea_reasoning.jsonl
+runs/*_hvea_targets.json
+runs/*_profile.json
+
+# The per-image acquisition profile copy that Phase 3 makes (already tracked at source)
+runs/*/acquisition_profile.json
+
+
+# ---------------------------------------------------------------------------
+# Things we DO want tracked even though they live under runs/
+# ---------------------------------------------------------------------------
+# Negative-pattern overrides to keep small, paper-relevant artifacts.
+# These are the structured findings that go with the paper.
+
+!runs/*/defensibility_report.json
+!runs/*/validation_report.json
+!runs/*/baseline_manifest.json
+!runs/.gitkeep
+!runs/*/.gitkeep
+
+
+# ---------------------------------------------------------------------------
+# Logs — keep the small per-image logs, ignore bulky ones
+# ---------------------------------------------------------------------------
+
+logs/environment.log
+logs/*.log
+
+# But keep a .gitkeep so the dir is committed
+!logs/.gitkeep
+
+
+# ---------------------------------------------------------------------------
+# Hashes — small chain-of-custody anchors; tracked
+# ---------------------------------------------------------------------------
+# (Nothing to ignore here; just an explicit note.)
+
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+
+
+# ---------------------------------------------------------------------------
+# Editor / OS clutter
+# ---------------------------------------------------------------------------
+
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# ---------------------------------------------------------------------------
+# Secrets — defensive only; nothing should be here in the first place
+# ---------------------------------------------------------------------------
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.yaml
+
+
+# ---------------------------------------------------------------------------
+# Build artifacts (none expected in this repo, but listed for completeness)
+# ---------------------------------------------------------------------------
+
+dist/
+build/
+*.tar.gz
+*.zip
+*.whl
+
+# Exception: keep the scaffolding distribution zips if you want a history
+# of releases. Comment the next line back in if you don't.
+!releases/*.zip

@@ -1,0 +1,455 @@
+{
+  "version": "1.0.0",
+  "model": "HVEA Pyramid \u2014 Windows 11 variant (Paper II Section 4.2 test environment)",
+  "tiers": [
+    {
+      "id": 1,
+      "roman": "I",
+      "name": "Attribution and Environment Anchor",
+      "function": "Establishes identity and configuration context. All higher tiers rely on Tier I for interpretive stability.",
+      "priority": 1
+    },
+    {
+      "id": 2,
+      "roman": "II",
+      "name": "Primary Evidentiary Object Layer",
+      "function": "Contains the semantic focus of investigation: user-generated artifacts and outward interaction indicators.",
+      "priority": 2
+    },
+    {
+      "id": 3,
+      "roman": "III",
+      "name": "Behavioral Contextualization",
+      "function": "Bridges attribution and payload: execution chronology, application interaction, deletion residues.",
+      "priority": 3
+    },
+    {
+      "id": 4,
+      "roman": "IV",
+      "name": "System-Level Independent Corroboration",
+      "function": "Provides structural validation independent of semantic payload interpretation.",
+      "priority": 4
+    }
+  ],
+  "layers": [
+    {
+      "id": "A",
+      "name": "System & Hardware Baseline",
+      "tier": 1,
+      "purpose": "Establish the operating environment required for interpretation (OS version, file system type, disk layout, installed-program baseline, system time configuration).",
+      "core_artifacts": [
+        "OS version",
+        "file system type",
+        "disk layout",
+        "installed programs baseline",
+        "system time configuration"
+      ],
+      "typical_sources": [
+        "System configuration repositories",
+        "disk metadata",
+        "registry baseline keys"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/Windows/System32/config/SYSTEM",
+          "scope": "registry_hive"
+        },
+        {
+          "pattern": "/Windows/System32/config/SOFTWARE",
+          "scope": "registry_hive"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "name": "User & Machine Identity Context",
+      "tier": 1,
+      "purpose": "Defines attribution scope and identity anchoring (user accounts/SIDs, profile directories, registry system hives, group membership, machine identifiers).",
+      "core_artifacts": [
+        "user accounts/SIDs",
+        "profile directories",
+        "registry hives",
+        "group membership",
+        "machine identifiers"
+      ],
+      "typical_sources": [
+        "SAM/SYSTEM hives",
+        "user profile paths",
+        "registry keys"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/Windows/System32/config/SAM",
+          "scope": "registry_hive"
+        },
+        {
+          "pattern": "/Windows/System32/config/SECURITY",
+          "scope": "registry_hive"
+        },
+        {
+          "pattern": "/Users/*/NTUSER.DAT",
+          "scope": "registry_hive"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "User Content (Evidentiary Payload)",
+      "tier": 2,
+      "purpose": "Recover primary evidentiary objects under identity attribution. Contains documents, media, financial records, archives, downloads.",
+      "core_artifacts": [
+        "documents",
+        "media files",
+        "financial records",
+        "archives",
+        "downloads"
+      ],
+      "typical_sources": [
+        "User directories (Documents, Desktop, Downloads, Pictures)"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/Users/*/Documents/**",
+          "scope": "directory"
+        },
+        {
+          "pattern": "/Users/*/Desktop/**",
+          "scope": "directory"
+        },
+        {
+          "pattern": "/Users/*/Downloads/**",
+          "scope": "directory"
+        },
+        {
+          "pattern": "/Users/*/Pictures/**",
+          "scope": "directory"
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "name": "Network Interaction Presence",
+      "tier": 2,
+      "purpose": "Identify boundary-crossing activity and external interaction context. Captures host indicators, communication traces, network profile artifacts.",
+      "core_artifacts": [
+        "host indicators",
+        "communication traces",
+        "network profile artifacts"
+      ],
+      "typical_sources": [
+        "Network configuration stores",
+        "connection history artifacts"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/Windows/System32/config/SYSTEM",
+          "scope": "registry_hive",
+          "note": "NetworkList and Tcpip keys live here; co-acquired with Layer A SYSTEM hive."
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "name": "Execution & Recency Telemetry",
+      "tier": 3,
+      "purpose": "Reconstruct execution chronology linking identity to payload access. Prefetch, Shimcache, Amcache, recent files, shortcut traces.",
+      "core_artifacts": [
+        "Prefetch files",
+        "Shimcache",
+        "Amcache",
+        "recent files",
+        "shortcut traces"
+      ],
+      "typical_sources": [
+        "Prefetch directory",
+        "AppCompat artifacts",
+        "Recent destinations"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/Windows/Prefetch/**",
+          "scope": "directory"
+        },
+        {
+          "pattern": "/Windows/AppCompat/Programs/Amcache.hve",
+          "scope": "file"
+        },
+        {
+          "pattern": "/Users/*/AppData/Roaming/Microsoft/Windows/Recent/**",
+          "scope": "directory"
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "name": "Browser & Application Interaction",
+      "tier": 3,
+      "purpose": "Contextualize acquisition, research, and dissemination behavior. History, cookies, web storage, IndexedDB, typed URLs, bookmarks, download metadata.",
+      "core_artifacts": [
+        "browser history",
+        "cookies",
+        "web storage",
+        "IndexedDB",
+        "typed URLs",
+        "bookmarks",
+        "download metadata"
+      ],
+      "typical_sources": [
+        "Browser SQLite databases",
+        "profile directories"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/Users/*/AppData/Local/Google/Chrome/User Data/**",
+          "scope": "directory"
+        },
+        {
+          "pattern": "/Users/*/AppData/Local/Microsoft/Edge/User Data/**",
+          "scope": "directory"
+        },
+        {
+          "pattern": "/Users/*/AppData/Roaming/Mozilla/Firefox/Profiles/**",
+          "scope": "directory"
+        }
+      ]
+    },
+    {
+      "id": "G",
+      "name": "Deletion & Transient Residues",
+      "tier": 3,
+      "purpose": "Detect deletion intent and artifact lifecycle behavior. Recycle Bin entries, temporary artifacts, thumbnail cache, cleanup traces.",
+      "core_artifacts": [
+        "Recycle Bin entries",
+        "temporary artifacts",
+        "thumbnail cache",
+        "cleanup traces"
+      ],
+      "typical_sources": [
+        "$Recycle.Bin",
+        "%TEMP%",
+        "cache directories"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/$Recycle.Bin/**",
+          "scope": "directory",
+          "allocated_only": false,
+          "note": "Recycle Bin residues may persist in unallocated space after emptying."
+        },
+        {
+          "pattern": "/Users/*/AppData/Local/Temp/**",
+          "scope": "directory"
+        },
+        {
+          "pattern": "/Users/*/AppData/Local/Microsoft/Windows/Explorer/thumbcache_*.db",
+          "scope": "file"
+        }
+      ]
+    },
+    {
+      "id": "H",
+      "name": "Event Logs (System Temporal Chronology)",
+      "tier": 4,
+      "purpose": "Independently corroborate authentication, boot, and service chronology. Security, system, application event records.",
+      "core_artifacts": [
+        "Security event log",
+        "System event log",
+        "Application event log"
+      ],
+      "typical_sources": [
+        "Windows Event Log repositories"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "/Windows/System32/winevt/Logs/**",
+          "scope": "log_repository",
+          "note": "Vista and later. XP uses /Windows/System32/config/*.evt."
+        },
+        {
+          "pattern": "/Windows/System32/config/*.evt",
+          "scope": "log_repository",
+          "note": "XP-era only."
+        }
+      ]
+    },
+    {
+      "id": "I",
+      "name": "NTFS Metadata (Structural Ground Truth)",
+      "tier": 4,
+      "purpose": "Validate file lifecycle and structural consistency independent of semantic interpretation. $MFT entries, MAC timestamps, structural attributes.",
+      "core_artifacts": [
+        "$MFT entries",
+        "MAC timestamps",
+        "structural attributes"
+      ],
+      "typical_sources": [
+        "NTFS metadata structures"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "$MFT",
+          "scope": "filesystem_structure",
+          "allocated_only": false
+        }
+      ]
+    },
+    {
+      "id": "J",
+      "name": "USN Journal & File Change Chronology",
+      "tier": 4,
+      "purpose": "Reconstruct fine-grained file-system change chronology and concealment behavior. $UsnJrnl entries, structural change indicators.",
+      "core_artifacts": [
+        "$UsnJrnl entries",
+        "structural change indicators"
+      ],
+      "typical_sources": [
+        "NTFS journaling artifacts"
+      ],
+      "acquisition_paths": [
+        {
+          "pattern": "$Extend/$UsnJrnl:$J",
+          "scope": "filesystem_structure",
+          "allocated_only": false,
+          "note": "$LogFile is explicitly excluded \u2014 supports transactional crash recovery, not evidentiary chronology."
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "from": "A",
+      "to": "B",
+      "type": "semantic_context",
+      "strength": "strong",
+      "rationale": "Identity context (B) is interpreted within the operating environment baseline (A). Without A, B's SIDs and profile paths lack environmental grounding."
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "type": "attribution",
+      "strength": "strong",
+      "rationale": "User content (C) requires identity attribution from B. Documents and downloads cannot be reliably associated with a specific user without B's SID and profile context."
+    },
+    {
+      "from": "B",
+      "to": "D",
+      "type": "attribution",
+      "strength": "strong",
+      "rationale": "Network interaction (D) requires attribution boundary from B to associate boundary-crossing activity with an identity."
+    },
+    {
+      "from": "B",
+      "to": "E",
+      "type": "attribution",
+      "strength": "strong",
+      "rationale": "Execution telemetry (E) links identity to payload access; the identity anchor is B."
+    },
+    {
+      "from": "C",
+      "to": "E",
+      "type": "semantic_context",
+      "strength": "strong",
+      "rationale": "Execution telemetry (E) is interpretively about access and handling of payload (C). Without C, E events lack semantic targets."
+    },
+    {
+      "from": "B",
+      "to": "F",
+      "type": "attribution",
+      "strength": "strong",
+      "rationale": "Browser interaction (F) requires user attribution from B; browser profiles live under user-account paths."
+    },
+    {
+      "from": "C",
+      "to": "G",
+      "type": "semantic_context",
+      "strength": "strong",
+      "rationale": "Deletion residues (G) reflect post-creation handling of payload (C). G's interpretive value depends on what was deleted relative to C."
+    },
+    {
+      "from": "B",
+      "to": "G",
+      "type": "attribution",
+      "strength": "strong",
+      "rationale": "Recycle Bin entries are SID-scoped; G requires B for user attribution."
+    },
+    {
+      "from": "B",
+      "to": "H",
+      "type": "corroboration",
+      "strength": "strong",
+      "rationale": "Three-source convergence pattern from Paper II: SAM last-login (B), NIC LastWrite (D), event log session record (H) converge to corroborate session attribution."
+    },
+    {
+      "from": "D",
+      "to": "H",
+      "type": "corroboration",
+      "strength": "strong",
+      "rationale": "Three-source convergence pattern: H corroborates D's network presence by recording the session in which network activity occurred."
+    },
+    {
+      "from": "E",
+      "to": "H",
+      "type": "temporal_anchor",
+      "strength": "strong",
+      "rationale": "Event logs (H) anchor execution telemetry (E) chronologically: H's logon session timestamps validate E's Prefetch timestamps."
+    },
+    {
+      "from": "C",
+      "to": "I",
+      "type": "temporal_anchor",
+      "strength": "strong",
+      "rationale": "NTFS metadata (I) provides structural ground truth for payload (C): MAC timestamps in $MFT validate semantic claims about file creation and modification."
+    },
+    {
+      "from": "G",
+      "to": "I",
+      "type": "corroboration",
+      "strength": "strong",
+      "rationale": "I corroborates G: $MFT entries persist after deletion and validate Recycle Bin chronology."
+    },
+    {
+      "from": "C",
+      "to": "J",
+      "type": "temporal_anchor",
+      "strength": "strong",
+      "rationale": "USN journal (J) confirms creation, modification, and deletion chronology for payload (C). Paper II walkthrough cites $UsnJrnl as the precise timestamp source for archived files."
+    },
+    {
+      "from": "G",
+      "to": "J",
+      "type": "corroboration",
+      "strength": "strong",
+      "rationale": "J independently corroborates G: $UsnJrnl records deletion events with reason codes, validating Recycle Bin's claim about what was deleted and when."
+    },
+    {
+      "from": "I",
+      "to": "J",
+      "type": "corroboration",
+      "strength": "moderate",
+      "rationale": "I (MFT) and J (USN journal) provide complementary structural views; J references MFT entries by record number."
+    }
+  ],
+  "convergence_patterns": [
+    {
+      "name": "Three-source session convergence",
+      "layers": [
+        "B",
+        "D",
+        "H"
+      ],
+      "tolerance": "30 seconds",
+      "function": "Paper II's defensible reconstruction standard: SAM last-login (B), NIC LastWrite (D), and event log session record (H) agreeing within 30 seconds corroborate session attribution and chronology."
+    },
+    {
+      "name": "Payload lifecycle corroboration",
+      "layers": [
+        "C",
+        "I",
+        "J"
+      ],
+      "function": "User content (C) validated by NTFS metadata (I) and USN journal entries (J) to confirm creation, modification, and deletion chronology independent of semantic claims."
+    }
+  ],
+  "os_variant": "windows_11",
+  "notes": "Paths reflect Windows 11 conventions confirmed against the W11_HVEA_14D controlled image (Paper II Section 4.2). User profile layout: /Users/<name>/. Event logs in /Windows/System32/winevt/Logs/*.evtx. Recycle bin at /$Recycle.Bin/<SID>/. Browser data under /Users/<name>/AppData/Local/{Google/Chrome,Microsoft/Edge}/User Data/."
+}

@@ -1,0 +1,168 @@
+{
+  "version": "1.0.0",
+  "model": "HVEA Pyramid - Windows Vista variant (M57-Patents Terry test environment)",
+  "os_variant": "windows_vista",
+  "notes": "Paths reflect Windows Vista Business SP2 conventions confirmed against Terry Nov 12 and Terry Nov 19 (M57). User profile layout: /Users/<name>/. Event logs in /Windows/System32/winevt/Logs/*.evtx (introduced with Vista). Recycle bin at /$Recycle.Bin/<SID>/. Vista uses Windows Mail (not Outlook Express) and Chrome was observed in Terry's investigation. A compatibility symlink 'Documents and Settings' exists at the root pointing to Users; the reasoner does not rely on it.",
+  "tiers": [
+    {"id":1,"roman":"I","name":"Attribution and Environment Anchor","function":"Establishes identity and configuration context. All higher tiers rely on Tier I for interpretive stability.","priority":1},
+    {"id":2,"roman":"II","name":"Primary Evidentiary Object Layer","function":"Contains the semantic focus of investigation: user-generated artifacts and outward interaction indicators.","priority":2},
+    {"id":3,"roman":"III","name":"Behavioral Contextualization","function":"Bridges attribution and payload: execution chronology, application interaction, deletion residues.","priority":3},
+    {"id":4,"roman":"IV","name":"System-Level Independent Corroboration","function":"Provides structural validation independent of semantic payload interpretation.","priority":4}
+  ],
+  "layers": [
+    {
+      "id": "A",
+      "name": "System & Hardware Baseline",
+      "tier": 1,
+      "purpose": "Establish the operating environment required for interpretation (OS version, file system type, disk layout, installed-program baseline, system time configuration).",
+      "core_artifacts": ["OS version","file system type","disk layout","installed programs baseline","system time configuration"],
+      "typical_sources": ["Vista registry hives (SYSTEM, SOFTWARE)"],
+      "acquisition_paths": [
+        { "pattern": "/Windows/System32/config/SYSTEM",   "scope": "registry_hive" },
+        { "pattern": "/Windows/System32/config/SOFTWARE", "scope": "registry_hive" }
+      ]
+    },
+    {
+      "id": "B",
+      "name": "User & Machine Identity Context",
+      "tier": 1,
+      "purpose": "Defines attribution scope and identity anchoring (user accounts/SIDs, profile directories, registry system hives, group membership, machine identifiers).",
+      "core_artifacts": ["user accounts/SIDs","profile directories","registry hives","group membership","machine identifiers"],
+      "typical_sources": ["SAM, SECURITY hives","NTUSER.DAT per profile","Users directories"],
+      "acquisition_paths": [
+        { "pattern": "/Windows/System32/config/SAM",      "scope": "registry_hive" },
+        { "pattern": "/Windows/System32/config/SECURITY", "scope": "registry_hive" },
+        { "pattern": "/Users/*/NTUSER.DAT",               "scope": "registry_hive" },
+        { "pattern": "/Users/*/AppData/Local/Microsoft/Windows/UsrClass.dat", "scope": "registry_hive" }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "User Content (Evidentiary Payload)",
+      "tier": 2,
+      "purpose": "Recover primary evidentiary objects under identity attribution.",
+      "core_artifacts": ["documents","media files","financial records","archives","downloads"],
+      "typical_sources": ["Documents, Desktop, Downloads, Pictures under user profile"],
+      "acquisition_paths": [
+        { "pattern": "/Users/*/Documents/**", "scope": "directory" },
+        { "pattern": "/Users/*/Desktop/**",   "scope": "directory" },
+        { "pattern": "/Users/*/Downloads/**", "scope": "directory" },
+        { "pattern": "/Users/*/Pictures/**",  "scope": "directory" }
+      ]
+    },
+    {
+      "id": "D",
+      "name": "Network Interaction Presence",
+      "tier": 2,
+      "purpose": "Identify boundary-crossing activity and external interaction context. Vista introduces the NetworkList key in SOFTWARE hive (per-profile network identification).",
+      "core_artifacts": ["NetworkList profiles","Tcpip configuration","network interface state"],
+      "typical_sources": ["SOFTWARE hive NetworkList","SYSTEM hive Tcpip keys"],
+      "acquisition_paths": [
+        { "pattern": "/Windows/System32/config/SOFTWARE", "scope": "registry_hive",
+          "note": "NetworkList\\Profiles; co-acquired with Layer A SOFTWARE hive." },
+        { "pattern": "/Windows/System32/config/SYSTEM", "scope": "registry_hive",
+          "note": "Tcpip Parameters; co-acquired with Layer A SYSTEM hive." }
+      ]
+    },
+    {
+      "id": "E",
+      "name": "Execution & Recency Telemetry",
+      "tier": 3,
+      "purpose": "Reconstruct execution chronology linking identity to payload access. Vista has Prefetch and UserAssist; Amcache/Shimcache available from Vista SP1+ for tracked compatibility data.",
+      "core_artifacts": ["Prefetch files","UserAssist entries","Recent shortcuts (.lnk)"],
+      "typical_sources": ["/Windows/Prefetch/","Users profile Recent","UserAssist in NTUSER.DAT"],
+      "acquisition_paths": [
+        { "pattern": "/Windows/Prefetch/**", "scope": "directory" },
+        { "pattern": "/Users/*/AppData/Roaming/Microsoft/Windows/Recent/**", "scope": "directory" }
+      ]
+    },
+    {
+      "id": "F",
+      "name": "Browser & Application Interaction",
+      "tier": 3,
+      "purpose": "Contextualize acquisition, research, and dissemination behavior. Terry investigation confirms Chrome and Windows Mail (not Outlook Express, which is XP-only).",
+      "core_artifacts": ["Chrome history/cookies","IE history (legacy)","Windows Mail .eml","Firefox profiles"],
+      "typical_sources": ["Chrome User Data","IE Temporary Internet Files (legacy)","Windows Mail Local Folders"],
+      "acquisition_paths": [
+        { "pattern": "/Users/*/AppData/Local/Google/Chrome/User Data/**",                 "scope": "directory" },
+        { "pattern": "/Users/*/AppData/Roaming/Mozilla/Firefox/Profiles/**",              "scope": "directory" },
+        { "pattern": "/Users/*/AppData/Local/Mozilla/Firefox/Profiles/**",                "scope": "directory" },
+        { "pattern": "/Users/*/AppData/Local/Microsoft/Windows/Temporary Internet Files/**", "scope": "directory" },
+        { "pattern": "/Users/*/AppData/Local/Microsoft/Windows/History/**",               "scope": "directory" },
+        { "pattern": "/Users/*/AppData/Local/Microsoft/Windows Mail/**",                  "scope": "directory",
+          "note": "Vista's mail client. Stores messages and metadata under Local Folders." }
+      ]
+    },
+    {
+      "id": "G",
+      "name": "Deletion & Transient Residues",
+      "tier": 3,
+      "purpose": "Detect deletion intent and artifact lifecycle behavior. Vista uses the modern $Recycle.Bin layout; per-SID subdirectories with $I/$R record pairs.",
+      "core_artifacts": ["$Recycle.Bin per-SID entries","temp files","thumbnail cache"],
+      "typical_sources": ["/$Recycle.Bin/","Users profile Temp","thumbcache databases"],
+      "acquisition_paths": [
+        { "pattern": "/$Recycle.Bin/**", "scope": "directory", "allocated_only": false,
+          "note": "May persist in unallocated space after emptying." },
+        { "pattern": "/Users/*/AppData/Local/Temp/**", "scope": "directory" },
+        { "pattern": "/Users/*/AppData/Local/Microsoft/Windows/Explorer/thumbcache_*.db", "scope": "file" }
+      ]
+    },
+    {
+      "id": "H",
+      "name": "Event Logs (System Temporal Chronology)",
+      "tier": 4,
+      "purpose": "Independently corroborate authentication, boot, and service chronology. Vista introduces the .evtx format and the /Windows/System32/winevt/Logs/ repository.",
+      "core_artifacts": ["Security.evtx","System.evtx","Application.evtx"],
+      "typical_sources": ["/Windows/System32/winevt/Logs/"],
+      "acquisition_paths": [
+        { "pattern": "/Windows/System32/winevt/Logs/**", "scope": "log_repository" }
+      ]
+    },
+    {
+      "id": "I",
+      "name": "NTFS Metadata (Structural Ground Truth)",
+      "tier": 4,
+      "purpose": "Validate file lifecycle and structural consistency independent of semantic interpretation.",
+      "core_artifacts": ["$MFT entries","MAC timestamps","structural attributes"],
+      "typical_sources": ["NTFS metadata structures"],
+      "acquisition_paths": [
+        { "pattern": "$MFT", "scope": "filesystem_structure", "allocated_only": false }
+      ]
+    },
+    {
+      "id": "J",
+      "name": "USN Journal & File Change Chronology",
+      "tier": 4,
+      "purpose": "Reconstruct fine-grained file-system change chronology and concealment behavior.",
+      "core_artifacts": ["$UsnJrnl entries","structural change indicators"],
+      "typical_sources": ["NTFS journaling artifacts"],
+      "acquisition_paths": [
+        { "pattern": "$Extend/$UsnJrnl:$J", "scope": "filesystem_structure", "allocated_only": false }
+      ]
+    }
+  ],
+  "dependencies": [
+    {"from":"A","to":"B","type":"semantic_context","strength":"strong","rationale":"Identity context (B) is interpreted within the operating environment baseline (A)."},
+    {"from":"B","to":"C","type":"attribution","strength":"strong","rationale":"User content (C) requires identity attribution from B."},
+    {"from":"B","to":"D","type":"attribution","strength":"strong","rationale":"Network interaction (D) requires attribution boundary from B."},
+    {"from":"B","to":"E","type":"attribution","strength":"strong","rationale":"Execution telemetry (E) links identity to payload access; identity anchor is B."},
+    {"from":"C","to":"E","type":"semantic_context","strength":"strong","rationale":"Execution telemetry is interpretively about access and handling of payload."},
+    {"from":"B","to":"F","type":"attribution","strength":"strong","rationale":"Browser interaction (F) requires user attribution from B."},
+    {"from":"C","to":"G","type":"semantic_context","strength":"strong","rationale":"Deletion residues (G) reflect post-creation handling of payload (C)."},
+    {"from":"B","to":"G","type":"attribution","strength":"strong","rationale":"$Recycle.Bin entries are SID-scoped; G requires B."},
+    {"from":"B","to":"H","type":"corroboration","strength":"strong","rationale":"Three-source convergence: SAM last-login (B), NIC LastWrite (D), event log (H) corroborate session attribution."},
+    {"from":"D","to":"H","type":"corroboration","strength":"strong","rationale":"Three-source convergence: H corroborates D's network presence."},
+    {"from":"E","to":"H","type":"temporal_anchor","strength":"strong","rationale":"Event logs (H) anchor execution telemetry (E) chronologically."},
+    {"from":"C","to":"I","type":"temporal_anchor","strength":"strong","rationale":"NTFS metadata (I) provides structural ground truth for payload (C)."},
+    {"from":"G","to":"I","type":"corroboration","strength":"strong","rationale":"$MFT entries persist after deletion and validate $Recycle.Bin chronology."},
+    {"from":"C","to":"J","type":"temporal_anchor","strength":"strong","rationale":"USN journal (J) confirms creation, modification, and deletion chronology for payload (C)."},
+    {"from":"G","to":"J","type":"corroboration","strength":"strong","rationale":"J corroborates G; $UsnJrnl records deletion events with reason codes."},
+    {"from":"I","to":"J","type":"corroboration","strength":"moderate","rationale":"I (MFT) and J (USN journal) provide complementary structural views."}
+  ],
+  "convergence_patterns": [
+    {"name":"Three-source session convergence","layers":["B","D","H"],"tolerance":"30 seconds",
+     "function":"Paper II's defensible reconstruction standard validated for Vista as well as XP."},
+    {"name":"Payload lifecycle corroboration","layers":["C","I","J"],
+     "function":"User content (C) validated by NTFS metadata (I) and USN journal entries (J)."}
+  ]
+}
