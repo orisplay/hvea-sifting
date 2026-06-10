@@ -14,19 +14,33 @@ Partition offset: sector 63 (XP)
 ## Phase 3 acquisition
 - Acquired: 2,672 files, 1,137 MB; not_found 99; failed 0; 14s
 
-## Phase 5 validation (all pass; defensibility n/a pending rubric)
-- Storage reduction: 0.298 (70% reduction — most modest, richest content layer)
-- Artifact preservation (conservative): 0.968; Recoverable: 1.000
-- Data-absent ghosts: 89 (mount-verified); Genuine misses: 0
-- Completeness: 1.0 (all 10 layers); Integrity: 1.0
-- Transparency: full; Explainability: 1.0
+## Phase 5 validation
+| Metric | Value | Status |
+|---|---|---|
+| Storage reduction | 0.298 (70% reduction) | measured |
+| Artifact preservation (conservative) | 0.968 | pass |
+| Recoverable preservation | 1.000 | pass |
+| Data-absent ghosts | 89 | mount-verified |
+| Genuine misses | 0 | — |
+| Completeness | 1.0 (all 10 layers) | pass |
+| Integrity | 1.0 | pass |
+| Transparency | full | pass |
+| Explainability | 1.0 | pass |
+| Defensibility | n/a | rubric pending |
 
-## Note
-Jo is the cross-MACHINE pair (old computer vs new computer Dec 7), not a
-temporal pair. Layer C = 773 (richest user content of the XP subjects) ->
-lower reduction because more of the disk is genuinely evidentiary. Layer B
-(identity) = 7; to be compared against Dec 7 new computer for attribution
-consistency across machines.
+## Findings
+- Richest user-content layer of the XP subjects: Layer C = 773. This drives
+  the most modest reduction in the corpus (70%) — when more of the disk is
+  genuinely evidentiary, HVEA correctly preserves proportionally more.
+- Source hash re-verified against the master log before acquisition
+  (bit-for-bit match) — chain-of-custody confirmation step.
+- Recoverable preservation 1.0, 0 genuine misses, 89 mount-verified ghosts,
+  integrity 1.0, all 10 layers.
 
-Seven of eight M57 images validated. Across all seven: recoverable
-preservation 1.0, 0 genuine misses, integrity 1.0, all 10 layers.
+## Note on the Jo pair
+Jo is the cross-MACHINE / cross-capture pair (old computer Nov 20 vs a
+separate Dec 7 capture), not a same-machine temporal pair. Layer B (identity)
+= 7 here; compared against Dec 7 in that image's summary, where the
+attribution-stability finding is recorded.
+
+Seventh of eight M57 images.
