@@ -136,20 +136,74 @@ def metric_acquisition_speed(run: dict[str, Any]) -> MetricResult:
     )
 
 
+def _logical_media_size(baseline_image: Path, baseline_mount: Path | None) -> tuple[int, str]:
+    """
+    Determine the logical media size of the source — the size a full,
+    uncompressed disk image would occupy — which is the correct denominator
+    for a storage-reduction claim against full-disk imaging.
+
+    Priority:
+      1. ewfinfo "media size" (handles multi-segment E01s correctly; the
+         compressed .E01 file size does NOT — an 18-segment image reports its
+         first segment as ~1.5 GB while the media is 40 GiB).
+      2. Mounted-partition size via the loop device backing the mount.
+      3. Fallback: on-disk size of the image file (only correct for a
+         single-segment uncompressed image; flagged as approximate).
+    """
+    import subprocess, shutil
+    # 1. ewfinfo media size
+    if shutil.which("ewfinfo"):
+        try:
+            out = subprocess.run(
+                ["ewfinfo", str(baseline_image)],
+                capture_output=True, text=True, timeout=60,
+            ).stdout
+            for line in out.splitlines():
+                # "Media size: 40 GiB (42949672960 bytes)"
+                if "media size" in line.lower() and "(" in line:
+                    digits = "".join(ch for ch in line.split("(")[1] if ch.isdigit())
+                    if digits:
+                        return int(digits), "ewfinfo_media_size"
+        except Exception:
+            pass
+    # 2. mounted partition size
+    if baseline_mount is not None:
+        try:
+            src_dev = subprocess.run(
+                ["findmnt", "-no", "SOURCE", str(baseline_mount)],
+                capture_output=True, text=True, timeout=30,
+            ).stdout.strip()
+            if src_dev:
+                size = subprocess.run(
+                    ["blockdev", "--getsize64", src_dev],
+                    capture_output=True, text=True, timeout=30,
+                ).stdout.strip()
+                if size.isdigit():
+                    return int(size), "mounted_partition_size"
+        except Exception:
+            pass
+    # 3. fallback — on-disk image size (approximate; wrong for multi-segment)
+    if baseline_image.exists():
+        return baseline_image.stat().st_size, "image_file_size_APPROX"
+    return 0, "unknown"
+
+
 def metric_storage_reduction(
     run: dict[str, Any], baseline_image: Path,
+    baseline_mount: Path | None = None,
 ) -> MetricResult:
     partial_size = run["report"]["manifest"]["counters"]["bytes_acquired"]
-    baseline_size = baseline_image.stat().st_size if baseline_image.exists() else 0
+    baseline_size, size_source = _logical_media_size(baseline_image, baseline_mount)
     ratio = (partial_size / baseline_size) if baseline_size else 0
     return MetricResult(
         metric="storage_reduction",
         source="Cihan, Phase 5",
         value=round(ratio, 6),
-        units="ratio (partial/baseline)",
+        units="ratio (partial/baseline media)",
         detail={
             "partial_bytes":  partial_size,
             "baseline_bytes": baseline_size,
+            "baseline_size_source": size_source,
             "reduction_percent": round((1 - ratio) * 100, 2) if baseline_size else None,
         },
     )
@@ -431,7 +485,7 @@ def validate(
 
     metrics.append(metric_acquisition_speed(run))
     if baseline_image:
-        metrics.append(metric_storage_reduction(run, baseline_image))
+        metrics.append(metric_storage_reduction(run, baseline_image, baseline_mount))
     if baseline_inventory:
         baseline_paths = load_inventory_paths(baseline_inventory)
         metrics.append(metric_artifact_preservation(run, baseline_paths, baseline_mount))
