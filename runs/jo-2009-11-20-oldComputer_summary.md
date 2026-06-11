@@ -17,7 +17,7 @@ Partition offset: sector 63 (XP)
 ## Phase 5 validation
 | Metric | Value | Status |
 |---|---|---|
-| Storage reduction | 0.298 (70% reduction) | measured |
+| Storage reduction | 0.092 (90.8% reduction) | measured |
 | Artifact preservation (conservative) | 0.968 | pass |
 | Recoverable preservation | 1.000 | pass |
 | Data-absent ghosts | 89 | mount-verified |

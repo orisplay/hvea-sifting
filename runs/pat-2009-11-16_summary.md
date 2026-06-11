@@ -17,7 +17,7 @@ Partition offset: sector 63 (XP)
 ## Phase 5 validation
 | Metric | Value | Status |
 |---|---|---|
-| Storage reduction | 0.219 (78% reduction) | measured |
+| Storage reduction | 0.064 (93.6% reduction) | measured |
 | Artifact preservation (conservative) | 0.982 | pass |
 | Recoverable preservation | 1.000 | pass |
 | Data-absent ghosts | 113 | mount-verified |
@@ -34,7 +34,7 @@ Partition offset: sector 63 (XP)
   artifacts (not pattern over-match) by path-cluster inspection. HVEA's
   Layer F correctly scales to capture a full browser footprint when present.
 - High file count (6,159) but smallest data volume (791 MB) of any image —
-  IE cache objects are numerous but tiny. 78% storage reduction holds.
+  IE cache objects are numerous but tiny. 93.6% storage reduction (vs true media size) holds.
 - Recoverable preservation 1.0, 0 genuine misses, 113 mount-verified ghosts
   (most yet — dense IE cache churns the most MFT entries).
 - Hash was missing from the master log; computed fresh and recorded.

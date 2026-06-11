@@ -37,9 +37,9 @@ Working disk: dedicated 60 GB ext4 on D: (/mnt/win11work) — native, no FUSE
   cache, not legacy IE), Layer H = 393 (Win11 .evtx channels, richest in
   corpus), Layer E = 623 (modern execution evidence, richest in corpus).
   Third OS variant proven; same model, OS-specific paths, across XP/Vista/Win11.
-- Leanest selectivity of the corpus: 88.95% reduction on a 40 GiB disk.
-  Reduction scales monotonically with disk size: XP ~70-78%, Vista ~82-86%,
-  Win11 ~89%. More system bulk -> greater proportional reduction.
+- High selectivity on the modern OS: 89.0% reduction on a 40 GiB disk.
+  Reduction is consistently high corpus-wide (89.0-97.4% vs true media size),
+  with the largest disks trending highest (Terry Nov 19, 41 GB -> 97.4%).
 - Recoverable preservation 1.0, 0 genuine misses, 461 mount-verified ghosts.
 
 ## Metric fix applied this run (storage_reduction denominator)

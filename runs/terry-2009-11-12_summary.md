@@ -17,7 +17,7 @@ Partition offset: sector 2048 (Vista alignment)
 ## Phase 5 validation
 | Metric | Value | Status |
 |---|---|---|
-| Storage reduction | 0.180 (82% reduction) | measured |
+| Storage reduction | 0.066 (93.4% reduction) | measured |
 | Artifact preservation (conservative) | 0.962 | pass |
 | Recoverable preservation | 1.000 | pass |
 | Data-absent ghosts | 51 | mount-verified |

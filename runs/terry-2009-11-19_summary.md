@@ -16,7 +16,7 @@ Partition offset: sector 2048 (Vista alignment; XP was 63)
 ## Phase 5 validation
 | Metric | Value | Status |
 |---|---|---|
-| Storage reduction | 0.136 (86% reduction) | measured |
+| Storage reduction | 0.026 (97.4% reduction) | measured |
 | Artifact preservation (conservative) | 0.949 | pass |
 | Recoverable preservation | 1.000 | pass |
 | Data-absent ghosts | 90 | mount-verified |
@@ -31,9 +31,9 @@ Partition offset: sector 2048 (Vista alignment; XP was 63)
 - Vista-variant HVEA graph validated first-try on real evidence: all ten
   layers, 0 traversal leaks, no graph adjustment needed. Confirms the
   same-model/OS-specific-paths architecture across two Windows generations.
-- Leanest selectivity yet: 86% reduction on a 41 GB Vista disk. HVEA's
-  advantage scales with disk size — the larger/more system-heavy the disk,
-  the greater the proportional reduction (XP ~72-76%, Vista 86%).
+- Leanest selectivity in the corpus: 97.4% reduction on a 41 GB Vista disk. HVEA's
+  advantage is consistent across the corpus (89-97%) and most pronounced on
+  the largest disks (this image, 41 GB, the leanest result in the corpus).
 - Layer H = 30 (vs XP's 4): Vista's granular .evtx event channels, all
   caught by the winevt/Logs path. Layer C = 45 (sparse user content),
   consistent with Terry as the IT setup person rather than a document user.

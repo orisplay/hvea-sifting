@@ -14,7 +14,7 @@ Graph: hvea_graph_winxp.json
 ## Phase 5 validation
 | Metric | Value | Status |
 |---|---|---|
-| Storage reduction | 0.236 (76% reduction) | measured |
+| Storage reduction | 0.075 (92.5% reduction) | measured |
 | Artifact preservation (conservative) | 0.927 | pass |
 | Recoverable preservation | 1.000 | pass |
 | Data-absent ghosts | 101 | mount-verified |
