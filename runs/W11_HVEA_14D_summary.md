@@ -3,7 +3,10 @@
 Date: 2026-06-10
 Image MD5 (ewfverify, full 18-segment set): cbff96d87602576457c8cc5c1478f377
   SHA1 (ewfverify): e630f459ce5a35494461cc65da4f804f66dae28a
+  SHA-256 (logical media, independent): c3c3d5f5b6fba2e1c102bc3033d86749e6e85924a77814a50274dcd1ce46b9ac
   ewfverify: SUCCESS (stored hash == recomputed over full 40 GiB) — source intact
+  NOTE: Win11 hashes are over the LOGICAL MEDIA (reconstructed 40 GiB image).
+  M57 images (x8) used file-level SHA-256 of the stored .E01 container.
 Graph: hvea_graph_win11.json (FIRST use on real Win11 evidence)
 Partition: GPT slot 006, offset 227540992 (sector 444416), ~39 GB Windows volume
 Working disk: dedicated 60 GB ext4 on D: (/mnt/win11work) — native, no FUSE
