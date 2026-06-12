@@ -1,0 +1,27 @@
+/$OrphanFiles
+/$OrphanFiles
+/$OrphanFiles
+/$Recycle.Bin
+/EFI
+/EFI/Boot
+/EFI/Microsoft
+/EFI/Microsoft/Boot
+/EFI/Microsoft/Recovery
+/OneDriveTemp
+/OneDriveTemp/S-1-5-21-1225636920-405308736-660181847-1001
+/OneDriveTemp/S-1-5-21-1225636920-405308736-660181847-1001/a6f896e07d0445b18f7874bfbbf5bad8-Personal
+/PerfLogs
+/Program Files
+/Program Files (x86)
+/ProgramData
+/Recovery
+/Recovery
+/System Volume Information
+/System Volume Information
+/System Volume Information
+/Users/Alexh/OneDrive/Documents
+/Users/Alexh/OneDrive/Pictures
+/Users/Alexh/Videos/Captures
+/Users/research_user/Videos/Captures
+/Windows
+/inetpub

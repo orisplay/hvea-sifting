@@ -1,0 +1,51 @@
+/$OrphanFiles
+/$Recycle.Bin
+/$WINDOWS.~BT
+/$WINDOWS.~LS
+/Boot
+/PerfLogs
+/Program Files
+/ProgramData
+/Python26
+/System Volume Information
+/Users/Public/Music/Sample Music
+/Users/Public/Music/Sample Music/Amanda.wma
+/Users/Public/Music/Sample Music/Despertar.wma
+/Users/Public/Music/Sample Music/Din Din Wo (Little Child).wma
+/Users/Public/Music/Sample Music/Distance.wma
+/Users/Public/Music/Sample Music/I Guess You're Right.wma
+/Users/Public/Music/Sample Music/I Ka Barra (Your Work).wma
+/Users/Public/Music/Sample Music/Love Comes.wma
+/Users/Public/Music/Sample Music/Muita Bobeira.wma
+/Users/Public/Music/Sample Music/OAM's Blues.wma
+/Users/Public/Music/Sample Music/One Step Beyond.wma
+/Users/Public/Music/Sample Music/Symphony_No_3.wma
+/Users/Public/Videos/Sample Videos
+/Users/Public/Videos/Sample Videos/Bear.wmv
+/Users/Public/Videos/Sample Videos/Butterfly.wmv
+/Users/Public/Videos/Sample Videos/Lake.wmv
+/Users/Terry/Contacts/Terry.contact
+/Users/Terry/Favorites/Links/Suggested Sites.url
+/Users/Terry/Favorites/Links/Web Slice Gallery.url
+/Users/Terry/Favorites/MSN Websites
+/Users/Terry/Favorites/MSN Websites/MSN Autos.url
+/Users/Terry/Favorites/MSN Websites/MSN Entertainment.url
+/Users/Terry/Favorites/MSN Websites/MSN Money.url
+/Users/Terry/Favorites/MSN Websites/MSN Sports.url
+/Users/Terry/Favorites/MSN Websites/MSN.url
+/Users/Terry/Favorites/MSN Websites/MSNBC News.url
+/Users/Terry/Favorites/Microsoft Websites
+/Users/Terry/Favorites/Microsoft Websites/IE Add-on site.url
+/Users/Terry/Favorites/Microsoft Websites/IE site on Microsoft.com.url
+/Users/Terry/Favorites/Microsoft Websites/Marketplace.url
+/Users/Terry/Favorites/Microsoft Websites/Microsoft At Home.url
+/Users/Terry/Favorites/Microsoft Websites/Microsoft At Work.url
+/Users/Terry/Favorites/Microsoft Websites/Microsoft Store.url
+/Users/Terry/Favorites/Microsoft Websites/Welcome to IE7.url
+/Users/Terry/Favorites/Windows Live
+/Users/Terry/Favorites/Windows Live/Get Windows Live.url
+/Users/Terry/Favorites/Windows Live/Windows Live Gallery.url
+/Users/Terry/Favorites/Windows Live/Windows Live Mail.url
+/Users/Terry/Favorites/Windows Live/Windows Live Spaces.url
+/Users/Terry/{9df194e3-a178-46f3-a1b6-a9a00d8cd04c}
+/Windows

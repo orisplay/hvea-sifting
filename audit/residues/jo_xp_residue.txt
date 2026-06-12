@@ -1,0 +1,242 @@
+/$OrphanFiles
+/Documents and Settings/Administrator/Favorites/Links/Free Hotmail.url
+/Documents and Settings/Administrator/Favorites/Links/Suggested Sites.url
+/Documents and Settings/Administrator/Favorites/Links/Web Slice Gallery.url
+/Documents and Settings/Administrator/Favorites/Links/Windows Media.url
+/Documents and Settings/Administrator/Favorites/MSN.com.url
+/Documents and Settings/Administrator/Favorites/Microsoft Websites
+/Documents and Settings/Administrator/Favorites/Microsoft Websites/IE Add-on site.url
+/Documents and Settings/Administrator/Favorites/Microsoft Websites/IE site on Microsoft.com.url
+/Documents and Settings/Administrator/Favorites/Microsoft Websites/Microsoft At Home.url
+/Documents and Settings/Administrator/Favorites/Microsoft Websites/Microsoft At Work.url
+/Documents and Settings/Administrator/Favorites/Microsoft Websites/Microsoft Store.url
+/Documents and Settings/Administrator/Favorites/Radio Station Guide.url
+/Documents and Settings/Administrator/IETldCache
+/Documents and Settings/Administrator/IETldCache/index.dat
+/Documents and Settings/Administrator/PrivacIE
+/Documents and Settings/Administrator/PrivacIE/index.dat
+/Documents and Settings/Administrator/SendTo/Compressed (zipped) Folder.ZFSendToTarget
+/Documents and Settings/Administrator/SendTo/Desktop (create shortcut).DeskLink
+/Documents and Settings/Administrator/SendTo/Mail Recipient.MAPIMail
+/Documents and Settings/Administrator/SendTo/My Documents.mydocs
+/Documents and Settings/Administrator/Start Menu/Programs
+/Documents and Settings/Administrator/Start Menu/Programs/Accessories
+/Documents and Settings/Administrator/Start Menu/Programs/Accessories/Accessibility
+/Documents and Settings/Administrator/Start Menu/Programs/Accessories/Entertainment
+/Documents and Settings/Administrator/Start Menu/Programs/Accessories/System Tools
+/Documents and Settings/Administrator/Start Menu/Programs/Startup
+/Documents and Settings/Administrator/Templates/amipro.sam
+/Documents and Settings/Administrator/Templates/excel.xls
+/Documents and Settings/Administrator/Templates/excel4.xls
+/Documents and Settings/Administrator/Templates/lotus.wk4
+/Documents and Settings/Administrator/Templates/powerpnt.ppt
+/Documents and Settings/Administrator/Templates/presenta.shw
+/Documents and Settings/Administrator/Templates/quattro.wb2
+/Documents and Settings/Administrator/Templates/sndrec.wav
+/Documents and Settings/Administrator/Templates/winword.doc
+/Documents and Settings/Administrator/Templates/winword2.doc
+/Documents and Settings/Administrator/Templates/wordpfct.wpd
+/Documents and Settings/Administrator/Templates/wordpfct.wpg
+/Documents and Settings/Administrator/UserData
+/Documents and Settings/Administrator/UserData/7STO7E44
+/Documents and Settings/Administrator/UserData/8CQ5D7KS
+/Documents and Settings/Administrator/UserData/L1M99S5R
+/Documents and Settings/Administrator/UserData/NNOGU1MH
+/Documents and Settings/Administrator/UserData/index.dat
+/Documents and Settings/All Users/DRM
+/Documents and Settings/All Users/DRM/drmv2.lic
+/Documents and Settings/All Users/DRM/drmv2.sst
+/Documents and Settings/All Users/Documents/My Music
+/Documents and Settings/All Users/Documents/My Music/My Playlists
+/Documents and Settings/All Users/Documents/My Music/Sample Music
+/Documents and Settings/All Users/Documents/My Music/Sample Music/Beethoven's Symphony No. 9 (Scherzo).wma
+/Documents and Settings/All Users/Documents/My Music/Sample Music/New Stories (Highway Blues).wma
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst1.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst10.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst11.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst12.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst13.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst14.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst15.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst2.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst3.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst4.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst5.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst6.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst7.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst8.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/0022A11C/Plylst9.wpl
+/Documents and Settings/All Users/Documents/My Music/Sample Playlists/Plylst9.wpl
+/Documents and Settings/All Users/Documents/My Pictures
+/Documents and Settings/All Users/Documents/My Pictures/Sample Pictures
+/Documents and Settings/All Users/Documents/My Pictures/Sample Pictures/Blue hills.jpg
+/Documents and Settings/All Users/Documents/My Pictures/Sample Pictures/Sunset.jpg
+/Documents and Settings/All Users/Documents/My Pictures/Sample Pictures/Water lilies.jpg
+/Documents and Settings/All Users/Documents/My Pictures/Sample Pictures/Winter.jpg
+/Documents and Settings/All Users/Documents/My Videos
+/Documents and Settings/All Users/Start Menu/Programs
+/Documents and Settings/All Users/Start Menu/Programs/AVG 9.0
+/Documents and Settings/All Users/Start Menu/Programs/Accessories
+/Documents and Settings/All Users/Start Menu/Programs/Accessories/Accessibility
+/Documents and Settings/All Users/Start Menu/Programs/Accessories/Communications
+/Documents and Settings/All Users/Start Menu/Programs/Accessories/Entertainment
+/Documents and Settings/All Users/Start Menu/Programs/Accessories/System Tools
+/Documents and Settings/All Users/Start Menu/Programs/Administrative Tools
+/Documents and Settings/All Users/Start Menu/Programs/Games
+/Documents and Settings/All Users/Start Menu/Programs/Mozilla Firefox
+/Documents and Settings/All Users/Start Menu/Programs/OpenOffice.org 3.1
+/Documents and Settings/All Users/Start Menu/Programs/Python 2.6
+/Documents and Settings/All Users/Start Menu/Programs/QuickTime
+/Documents and Settings/All Users/Start Menu/Programs/Startup
+/Documents and Settings/All Users/Templates/soffice.odg
+/Documents and Settings/All Users/Templates/soffice.odp
+/Documents and Settings/All Users/Templates/soffice.ods
+/Documents and Settings/All Users/Templates/soffice.odt
+/Documents and Settings/Default User/MPC786.tmp
+/Documents and Settings/Default User/MPC787.tmp
+/Documents and Settings/Default User/MPC788.tmp
+/Documents and Settings/Default User/MPC789.tmp
+/Documents and Settings/Default User/MPC78A.tmp
+/Documents and Settings/Default User/MPC78B.tmp
+/Documents and Settings/Default User/MPC78C.tmp
+/Documents and Settings/Default User/MPC78D.tmp
+/Documents and Settings/Default User/MPC78E.tmp
+/Documents and Settings/Default User/MPC79A.tmp
+/Documents and Settings/Default User/MPC79B.tmp
+/Documents and Settings/Default User/MPC79C.tmp
+/Documents and Settings/Default User/MPC79D.tmp
+/Documents and Settings/Default User/MPC79E.tmp
+/Documents and Settings/Default User/MPC79F.tmp
+/Documents and Settings/Default User/MPC7A0.tmp
+/Documents and Settings/Default User/MPC7A1.tmp
+/Documents and Settings/Default User/MPC7A2.tmp
+/Documents and Settings/Default User/MPC7AE.tmp
+/Documents and Settings/Default User/MPC7B0.tmp
+/Documents and Settings/Default User/MPC7B1.tmp
+/Documents and Settings/Default User/MPC7B2.tmp
+/Documents and Settings/Default User/MPC7B3.tmp
+/Documents and Settings/Default User/MPC7B4.tmp
+/Documents and Settings/Default User/MPC7B5.tmp
+/Documents and Settings/Default User/MPC7B6.tmp
+/Documents and Settings/Default User/MPC7C2.tmp
+/Documents and Settings/Default User/MPC7C4.tmp
+/Documents and Settings/Default User/MPC7C5.tmp
+/Documents and Settings/Default User/MPC7C6.tmp
+/Documents and Settings/Default User/MPC7C7.tmp
+/Documents and Settings/Default User/MPC7C8.tmp
+/Documents and Settings/Default User/MPC7C9.tmp
+/Documents and Settings/Default User/MPC7CA.tmp
+/Documents and Settings/Default User/MPC7D6.tmp
+/Documents and Settings/Default User/MPC7D8.tmp
+/Documents and Settings/Default User/MPC7D9.tmp
+/Documents and Settings/Default User/MPC7DA.tmp
+/Documents and Settings/Default User/MPC7DB.tmp
+/Documents and Settings/Default User/MPC7DC.tmp
+/Documents and Settings/Default User/MPC7DD.tmp
+/Documents and Settings/Default User/MPC7DE.tmp
+/Documents and Settings/Default User/MPC7EA.tmp
+/Documents and Settings/Default User/MPC7EC.tmp
+/Documents and Settings/Default User/MPC7ED.tmp
+/Documents and Settings/Default User/MPC7EE.tmp
+/Documents and Settings/Default User/MPC7EF.tmp
+/Documents and Settings/Default User/MPC7F0.tmp
+/Documents and Settings/Default User/MPC7F1.tmp
+/Documents and Settings/Default User/MPC7F2.tmp
+/Documents and Settings/Default User/MPC7FE.tmp
+/Documents and Settings/Default User/MPC800.tmp
+/Documents and Settings/Default User/MPC801.tmp
+/Documents and Settings/Default User/MPC802.tmp
+/Documents and Settings/Default User/MPC803.tmp
+/Documents and Settings/Default User/MPC804.tmp
+/Documents and Settings/Default User/MPC805.tmp
+/Documents and Settings/Default User/MPC806.tmp
+/Documents and Settings/Default User/MPC812.tmp
+/Documents and Settings/Default User/MPC814.tmp
+/Documents and Settings/Default User/MPC815.tmp
+/Documents and Settings/Default User/MPC816.tmp
+/Documents and Settings/Default User/MPC817.tmp
+/Documents and Settings/Default User/MPC818.tmp
+/Documents and Settings/Default User/MPC819.tmp
+/Documents and Settings/Default User/MPC81A.tmp
+/Documents and Settings/Default User/MPC826.tmp
+/Documents and Settings/Default User/MPC828.tmp
+/Documents and Settings/Default User/MPC829.tmp
+/Documents and Settings/Default User/MPC82A.tmp
+/Documents and Settings/Default User/MPC82B.tmp
+/Documents and Settings/Default User/MPC82C.tmp
+/Documents and Settings/Default User/MPC82D.tmp
+/Documents and Settings/Default User/MPC82E.tmp
+/Documents and Settings/Default User/MPC83A.tmp
+/Documents and Settings/Default User/MPC83C.tmp
+/Documents and Settings/Default User/MPC83D.tmp
+/Documents and Settings/Default User/MPC83E.tmp
+/Documents and Settings/Default User/MPC83F.tmp
+/Documents and Settings/Default User/MPC840.tmp
+/Documents and Settings/Default User/MPC841.tmp
+/Documents and Settings/Default User/MPC842.tmp
+/Documents and Settings/Default User/SendTo/Compressed (zipped) Folder.ZFSendToTarget
+/Documents and Settings/Default User/SendTo/Desktop (create shortcut).DeskLink
+/Documents and Settings/Default User/SendTo/Mail Recipient.MAPIMail
+/Documents and Settings/Default User/Start Menu/Programs
+/Documents and Settings/Default User/Start Menu/Programs/Accessories
+/Documents and Settings/Default User/Start Menu/Programs/Accessories/Accessibility
+/Documents and Settings/Default User/Start Menu/Programs/Accessories/Entertainment
+/Documents and Settings/Default User/Start Menu/Programs/Startup
+/Documents and Settings/Default User/Templates/amipro.sam
+/Documents and Settings/Default User/Templates/excel.xls
+/Documents and Settings/Default User/Templates/excel4.xls
+/Documents and Settings/Default User/Templates/lotus.wk4
+/Documents and Settings/Default User/Templates/powerpnt.ppt
+/Documents and Settings/Default User/Templates/presenta.shw
+/Documents and Settings/Default User/Templates/quattro.wb2
+/Documents and Settings/Default User/Templates/sndrec.wav
+/Documents and Settings/Default User/Templates/winword.doc
+/Documents and Settings/Default User/Templates/winword2.doc
+/Documents and Settings/Default User/Templates/wordpfct.wpd
+/Documents and Settings/Default User/Templates/wordpfct.wpg
+/Documents and Settings/Default User/~DF72F8.tmp
+/Documents and Settings/Jo/Favorites/Links/Suggested Sites.url
+/Documents and Settings/Jo/Favorites/Links/Web Slice Gallery.url
+/Documents and Settings/Jo/Favorites/Links/ieonline.microsoft.com-#ieslice.url
+/Documents and Settings/Jo/Favorites/Microsoft Websites
+/Documents and Settings/Jo/Favorites/Microsoft Websites/IE Add-on site.url
+/Documents and Settings/Jo/Favorites/Microsoft Websites/IE site on Microsoft.com.url
+/Documents and Settings/Jo/Favorites/Microsoft Websites/Microsoft At Home.url
+/Documents and Settings/Jo/Favorites/Microsoft Websites/Microsoft At Work.url
+/Documents and Settings/Jo/Favorites/Microsoft Websites/Microsoft Store.url
+/Documents and Settings/Jo/IETldCache
+/Documents and Settings/Jo/IETldCache/index.dat
+/Documents and Settings/Jo/PrivacIE
+/Documents and Settings/Jo/PrivacIE/index.dat
+/Documents and Settings/Jo/SendTo/Compressed (zipped) Folder.ZFSendToTarget
+/Documents and Settings/Jo/SendTo/Desktop (create shortcut).DeskLink
+/Documents and Settings/Jo/SendTo/Mail Recipient.MAPIMail
+/Documents and Settings/Jo/SendTo/My Documents.mydocs
+/Documents and Settings/Jo/Start Menu/Programs
+/Documents and Settings/Jo/Start Menu/Programs/Accessories
+/Documents and Settings/Jo/Start Menu/Programs/Accessories/Accessibility
+/Documents and Settings/Jo/Start Menu/Programs/Accessories/Entertainment
+/Documents and Settings/Jo/Start Menu/Programs/Accessories/System Tools
+/Documents and Settings/Jo/Start Menu/Programs/Startup
+/Documents and Settings/Jo/Templates/amipro.sam
+/Documents and Settings/Jo/Templates/excel.xls
+/Documents and Settings/Jo/Templates/excel4.xls
+/Documents and Settings/Jo/Templates/lotus.wk4
+/Documents and Settings/Jo/Templates/powerpnt.ppt
+/Documents and Settings/Jo/Templates/presenta.shw
+/Documents and Settings/Jo/Templates/quattro.wb2
+/Documents and Settings/Jo/Templates/sndrec.wav
+/Documents and Settings/Jo/Templates/winword.doc
+/Documents and Settings/Jo/Templates/winword2.doc
+/Documents and Settings/Jo/Templates/wordpfct.wpd
+/Documents and Settings/Jo/Templates/wordpfct.wpg
+/Documents and Settings/LocalService/IETldCache
+/Documents and Settings/LocalService/IETldCache/index.dat
+/Program Files
+/Python26
+/RECYCLER
+/System Volume Information
+/WINDOWS
+/dell
