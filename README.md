@@ -13,9 +13,7 @@ Research code, configuration, and validation artifacts for Paper III of the diss
 
 HVEA-SIFTING is a four-phase selective-acquisition pipeline that uses the **High-Value Evidence
 Areas (HVEA)** dependency model (Paper II) as its selection basis. Rather than deciding relevance
-by flat criteria — file type, disk region, or investigator choice — it acquires artifacts in
-**evidentiary-dependency order** across ten layers and four tiers, so that each acquired item is
-interpretable in the context its predecessors establish.
+by flat criteria such as file type, disk region, or investigator choice, where it acquires artifacts in **evidentiary-dependency order** across ten layers and four tiers, so that each acquired item is interpretable in the context its predecessors establish.
 
 The work makes two contributions:
 
@@ -33,11 +31,11 @@ content among hundreds of thousands of omitted entries.
 
 ## Companion papers
 
-* **Paper I** — *Where Intelligence Has Taken Hold, and Where It Has Not: A PRISMA-Guided
+* **Paper I**: *Where Intelligence Has Taken Hold, and Where It Has Not: A PRISMA-Guided
   Systematic Mapping Review of Digital Forensics.* Electronics, 2026.
   Establishes the field-level defensibility vocabulary (completeness, integrity, transparency,
   explainability, defensibility) that this work's validation harness operationalizes.
-* **Paper II** — *A Layered High-Value Evidence Area (HVEA) Model for Selective Windows Digital
+* **Paper II**: *A Layered High-Value Evidence Area (HVEA) Model for Selective Windows Digital
   Forensics Imaging.* Electronics, 2026.
   Defines the ten artifact layers, four tiers, and evidentiary dependencies that Paper III
   formalizes into an executable reasoning graph.
@@ -103,9 +101,9 @@ are available from the corresponding author on reasonable request.
 
 ## Datasets
 
-* **M57-Patents** (Charlie, Jo, Pat, Terry × two captures each) — Windows XP SP3 and
+* **M57-Patents** (Charlie, Jo, Pat, Terry × two captures each) - Windows XP SP3 and
   Vista Business SP2 images from the publicly distributed M57 scenario.
-* **W11_HVEA_14D** — controlled Windows 11 image, 14-day activity protocol.
+* **W11_HVEA_14D** - controlled Windows 11 image, 14-day activity protocol.
 
 ## Citation
 
