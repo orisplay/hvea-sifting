@@ -30,7 +30,7 @@ Partition offset: sector 63 (XP)
 
 ## Findings
 - Richest user-content layer of the XP subjects: Layer C = 773. This drives
-  the most modest reduction in the corpus (70%) — when more of the disk is
+  a comparatively modest reduction (90.8%) — when more of the disk is
   genuinely evidentiary, HVEA correctly preserves proportionally more.
 - Source hash re-verified against the master log before acquisition
   (bit-for-bit match) — chain-of-custody confirmation step.
