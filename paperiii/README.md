@@ -1,13 +1,12 @@
-# Paper III — Mechanism-Bound Selective Imaging
+# Paper III — HVEA-SIFTING Pipeline Scaffolding
 
-End-to-end scaffolding for HVEA-extended SIFTING. Four phases, each a runnable
-module that consumes the previous phase's output and produces inputs the next
-phase needs.
+End-to-end scaffolding for HVEA-SIFTING. Four phases, each a runnable module
+that consumes the previous phase's output and produces inputs the next phase
+needs.
 
 > **Status.** This is research scaffolding, not production tooling. Each phase
 > is intentionally small, self-contained, and command-line driven so each can
-> be inspected, criticized, and revised independently before Paper III's
-> empirical runs commit to anything.
+> be inspected, criticized, and revised independently.
 
 ## Pipeline at a glance
 
@@ -30,13 +29,13 @@ phase needs.
                                         |
                                         v
                                +-------------------+
-   baseline + ground truth --> | Phase 5: validate |  (metrics report)
+   baseline + ground truth --> | Phase 4: validate |  (eight-metric report)
                                +-------------------+
 ```
 
-Phase 4 (explainability and defensibility) is woven into Phases 3 and 5
-rather than being its own pipeline stage: every acquisition decision produces
-a reasoning trace, and every run produces a defensibility report — both
+Explainability and defensibility are not a separate pipeline stage: every
+acquisition decision produces a reasoning trace in Phase 3, and every run
+produces a validation and defensibility report in Phase 4 — both
 automatically, not retrofitted.
 
 ## Phase 1 — HVEA dependency formalization
@@ -46,15 +45,20 @@ Path: `phase1_hvea_graph/`
 | File | What it is |
 | --- | --- |
 | `hvea_schema.json` | JSON Schema describing the HVEA graph format. |
-| `hvea_graph.json`  | The populated graph: four tiers, ten layers A–J, sixteen interpretive dependencies, two convergence patterns, all grounded in Paper II's Tables 2 and 3. |
-| `hvea_reasoner.py` | Loads the graph, takes a baseline file inventory (DFXML or JSONL), produces a dependency-respecting ordered acquisition target list and the reasoning trace. |
-| `test_inventory.jsonl` | Synthetic inventory used to smoke-test the reasoner. |
+| `hvea_graph_winxp.json` | XP variant (Charlie, Jo, Pat). |
+| `hvea_graph_winvista.json` | Vista variant (Terry). |
+| `hvea_graph_win11.json` | Windows 11 variant (controlled set). |
+| `hvea_reasoner.py` | Loads a graph, takes a baseline file inventory (DFXML or JSONL), and produces a dependency-respecting ordered acquisition target list and the reasoning trace (Eq. 1). |
 
-Run against your real baseline DFXML:
+Each graph populates four tiers, ten layers A-J, and the interpretive
+dependencies grounded in Paper II's tables. Select the graph that matches the
+image's operating system.
+
+Run against a real baseline DFXML (XP example):
 
 ```bash
 python phase1_hvea_graph/hvea_reasoner.py \
-    --graph     phase1_hvea_graph/hvea_graph.json \
+    --graph     phase1_hvea_graph/hvea_graph_winxp.json \
     --inventory <fiwalk_output>.dfxml \
     --out       phase1_hvea_graph/targets.json \
     --trace     phase1_hvea_graph/reasoning_trace.jsonl
@@ -73,11 +77,11 @@ Run:
 ```bash
 python phase2_sifting_mapping/sifting_profile_mapper.py \
     --targets phase1_hvea_graph/targets.json \
-    --graph   phase1_hvea_graph/hvea_graph.json \
+    --graph   phase1_hvea_graph/hvea_graph_winxp.json \
     --out     phase2_sifting_mapping/sifting_profile.json
 ```
 
-## Phase 3 — HVEA-enhanced SIFTING acquisition
+## Phase 3 — Dependency-ordered acquisition
 
 Path: `phase3_acquisition/`
 
@@ -111,13 +115,13 @@ runs/charlie_nov_hvea/
     defensibility_report.json
 ```
 
-## Phase 5 — Empirical validation
+## Phase 4 — Empirical validation
 
 Path: `phase4_validation/`
 
 | File | What it is |
 | --- | --- |
-| `validation_harness.py` | Compares a Phase 3 run against the full-disk baseline along the eight metrics from the experimental design doc (acquisition speed, storage reduction, artifact preservation, completeness, integrity, transparency, explainability, defensibility). |
+| `validation_harness.py` | Compares a Phase 3 run against the full-disk baseline along the eight metrics (acquisition speed, storage reduction, artifact preservation, completeness, integrity, transparency, explainability, defensibility). |
 
 Run:
 
@@ -132,7 +136,7 @@ python phase4_validation/validation_harness.py \
 
 The defensibility metric returns `n/a` until a pre-registered rubric is
 supplied via `--rubric`; this is intentional and tracks the open question
-flagged in the experimental design document (section 7).
+documented in the manuscript's limitations.
 
 ## Running the full pipeline on one image (M57 example)
 
@@ -145,9 +149,9 @@ flagged in the experimental design document (section 7).
 # 1. Baseline inventory via fiwalk (full disk ground truth).
 fiwalk -X charlie_nov_baseline.dfxml /mnt/charlie_nov_ro
 
-# 2. HVEA reasoning pass.
+# 2. HVEA reasoning pass (select the graph for the image's OS).
 python phase1_hvea_graph/hvea_reasoner.py \
-    --graph phase1_hvea_graph/hvea_graph.json \
+    --graph phase1_hvea_graph/hvea_graph_winxp.json \
     --inventory charlie_nov_baseline.dfxml \
     --out phase1_hvea_graph/charlie_nov_targets.json \
     --trace phase1_hvea_graph/charlie_nov_reasoning.jsonl
@@ -155,7 +159,7 @@ python phase1_hvea_graph/hvea_reasoner.py \
 # 3. Profile mapping.
 python phase2_sifting_mapping/sifting_profile_mapper.py \
     --targets phase1_hvea_graph/charlie_nov_targets.json \
-    --graph phase1_hvea_graph/hvea_graph.json \
+    --graph phase1_hvea_graph/hvea_graph_winxp.json \
     --out phase2_sifting_mapping/charlie_nov_profile.json
 
 # 4. Acquisition.
@@ -175,23 +179,9 @@ python phase4_validation/validation_harness.py \
     --out runs/charlie_nov_hvea/validation_report.json
 ```
 
-Repeat for each M57 subject (Charlie, Jo, Pat, Terry × two capture dates) and
-for the Windows 11 image set.
-
-## What is deliberately *not* in this scaffolding
-
-A few things are out of scope on purpose. Each maps to an open question in
-the experimental design document:
-
-- **Defensibility scoring rubric.** Stubbed; awaits the advisor lock.
-- **Research-question-anchored hypotheses and thresholds.** The validation
-  harness reports values; turning values into pass/fail against research
-  hypotheses happens after RQs are locked.
-- **Standard-SIFTING-without-HVEA condition.** The harness supports it
-  trivially (different profile, same execution), but Phase 5 will not
-  generate that condition until the third-condition question is resolved.
-- **Repeated runs / variance characterization.** Single per-image runs
-  for now; loop driver is straightforward when needed.
+Repeat for each M57 subject (Charlie, Jo, Pat, Terry x two capture dates) and
+for the Windows 11 image. The per-image protocol with environment setup,
+mount offsets, and sanity checks is in `docs/M57_Win11_Pilot_Protocol.md`.
 
 ## Conventions
 
