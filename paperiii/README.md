@@ -180,8 +180,8 @@ python phase4_validation/validation_harness.py \
 ```
 
 Repeat for each M57 subject (Charlie, Jo, Pat, Terry x two capture dates) and
-for the Windows 11 image. The per-image protocol with environment setup,
-mount offsets, and sanity checks is in `docs/M57_Win11_Pilot_Protocol.md`.
+for the Windows 11 image. The per-image reproduction workflow, including partition offsets, is in
+`docs/M57_Win11_Pilot_Protocol.md`.
 
 ## Conventions
 
