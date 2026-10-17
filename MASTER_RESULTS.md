@@ -56,17 +56,12 @@ Storage-reduction denominator: **ewfinfo media size** (corrected; see note below
   proportionally high data-absent ghost counts (e.g. Jo Dec 7: G=601, 374 ghosts;
   Win11: G=1957, 461 ghosts), all mount-verified. Two independent signals agree.
 
-## Note on the storage-reduction correction
+## Note on the storage-reduction denominator
 
-The first multi-segment image (Windows 11, 18 E01 segments) exposed a denominator
-bug in the validation harness: baseline size was measured from the `.E01` file on
-disk rather than the logical media size. For single-segment M57 images the `.E01`
-file ≈ media size, so the error was modest (each image's reduction was understated
-by ~13–18 percentage points); for the multi-segment Win11 image the `.E01` was
-1/25th of the media, which inverted the ratio (reported 3.0). The harness now reads
-the logical media size via `ewfinfo` (source-tagged `ewfinfo_media_size`) with a
-mounted-partition fallback. All nine images were re-validated under the corrected
-metric; only storage_reduction changed — integrity, preservation, completeness,
-transparency, and explainability were unaffected and re-confirmed identical.
-
-Previously reported (buggy) range: 70–86%. Corrected range: 89.0–97.4%.
+Storage reduction is computed against the logical media size of each image, read
+via `ewfinfo` (source-tagged `ewfinfo_media_size`) with a mounted-partition
+fallback, rather than against the on-disk `.E01` container size. This distinction
+matters for multi-segment images, such as the 18-segment Windows 11 image, where
+the container file size differs substantially from the logical media size. Only
+storage reduction depends on this denominator; integrity, preservation,
+completeness, transparency, and explainability are independent of it.
