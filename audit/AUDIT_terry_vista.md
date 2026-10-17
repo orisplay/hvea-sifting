@@ -31,7 +31,7 @@ Boot\), all application/system, no user content.
 
 ## Confirmation: Layer C reached Terry's content
 
-HVEA acquired 1,257 entries under Terry's profile. As a setup-phase capture, the
+HVEA acquired 1,143 files under Terry's profile. As a setup-phase capture, the
 machine held limited organic user content, but what existed was acquired,
 including Downloads\OOo_3.1.1_Win32Intel_install_wJRE_en-US.exe (a downloaded
 OpenOffice installer, software-provenance evidence) and desktop application
@@ -45,7 +45,7 @@ user-space content left behind.
 | Omitted entries | 308,833 | 28,782 | 116,745 |
 | Classified inert | 99.99% | 99.16% | 99.96% |
 | User-authored files omitted | 0 | 0 | 0 |
-| Real user content acquired | documents, installers | 1,060 files (camera photos/video) | 1,257 entries (downloaded installer) |
+| Real user content acquired | documents, installers | 1,060 files (camera photos/video) | 1,143 files (downloaded installer) |
 | Omitted user-space character | empty dirs, OS defaults | OS sample pictures, blank templates | Vista sample media, default bookmarks |
 
 Across three operating systems and three markedly different disk profiles

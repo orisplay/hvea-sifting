@@ -33,7 +33,7 @@ full under `residues/` so the classification can be independently verified.
 |---|---|---|---|---|---|
 | W11_HVEA_14D | Windows 11 | 308,833 | 99.99% | **0** | documents, downloaded installers |
 | jo-2009-11-20 | Windows XP | 28,782 | 99.16% | **0** | 1,060 files incl. camera photos & video |
-| terry-2009-11-12 | Windows Vista | 116,745 | 99.96% | **0** | 1,257 entries incl. downloaded installer |
+| terry-2009-11-12 | Windows Vista | 116,745 | 99.96% | **0** | 1,143 files incl. downloaded installer |
 
 Every flagged user-space entry, on every image, was inspected and confirmed
 non-evidentiary: OS sample media (XP/Vista stock pictures, music, video), blank
