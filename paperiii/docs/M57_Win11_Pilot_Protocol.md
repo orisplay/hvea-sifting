@@ -326,7 +326,7 @@ EOF
 
 ---
 
-## 9. Phase 5 — Validation
+## 9. Phase 4 — Validation
 
 ```bash
 python3 phase4_validation/validation_harness.py \
@@ -338,7 +338,7 @@ python3 phase4_validation/validation_harness.py \
     -v 2>&1 | tee -a "$PROJ/logs/$IMG.log"
 ```
 
-Defensibility will show `n/a` until the rubric is locked with Cihan.
+Defensibility will show `n/a` until a pre-registered rubric is supplied.
 
 ---
 
@@ -396,19 +396,6 @@ block in step 0.2) and repeat from step 2.
 This order is designed so that a graph-path-divergence finding on
 Terry's first Vista run doesn't block XP progress — the variants are
 independent.
-
----
-
-## What to bring to the next advisor meeting
-
-After Charlie's two captures plus one Vista image complete:
-
-1. The validation reports for each.
-2. The HVEA reasoning traces showing dependency-ordered acquisition for
-   each image.
-3. Any OS-variant graph adjustments made during the runs, with one-line
-   rationale per change. These are findings.
-4. The defensibility reports.
 
 ---
 

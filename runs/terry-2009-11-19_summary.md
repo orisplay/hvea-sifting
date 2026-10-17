@@ -13,7 +13,7 @@ Partition offset: sector 2048 (Vista alignment; XP was 63)
 ## Phase 3 acquisition
 - Acquired: 1,673 files, ~1.0 GB; not_found 110; failed 0; 9s
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.026 (97.4% reduction) | measured |
@@ -25,7 +25,7 @@ Partition offset: sector 2048 (Vista alignment; XP was 63)
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Findings
 - Vista-variant HVEA graph validated first-try on real evidence: all ten

@@ -20,7 +20,7 @@ Working disk: dedicated 60 GB ext4 on D: (/mnt/win11work) — native, no FUSE
 - Acquired: 11,387 files, 4.5 GB; not_found 605; failed 0; 37s
 - Output on /mnt/win11work (native ext4) — integrity metric unaffected by FUSE
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.111 (88.95% reduction) | measured |
@@ -32,7 +32,7 @@ Working disk: dedicated 60 GB ext4 on D: (/mnt/win11work) — native, no FUSE
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Findings
 - Win11-variant graph validated first-try: all 10 layers, 0 leaks, no

@@ -1,11 +1,11 @@
 """
-Validation Harness — Phase 5 deliverable for Paper III.
+Validation Harness — Phase 4 deliverable for Paper III.
 
 Compares an HVEA-enhanced SIFTING acquisition run (Phase 3 output) against a
 full-disk baseline image (ground truth) along the eight metrics defined in
 the experimental design document:
 
-  From Cihan's Phase 5:
+  From the Phase 4 validation design:
     - acquisition_speed   (wall-clock seconds)
     - storage_reduction   (partial / full size ratio)
     - artifact_preservation (HVEA-targeted artifacts present in partial,
@@ -22,7 +22,7 @@ the experimental design document:
                         until the rubric is locked with the advisor)
 
 Output: a single validation report JSON with per-metric results, plus an
-overall summary suitable for inclusion as a Phase 5 results table.
+overall summary suitable for inclusion as a Phase 4 results table.
 
 Usage:
     python validation_harness.py \
@@ -45,7 +45,7 @@ from dataclasses import dataclass, asdict, field
 from pathlib import Path
 from typing import Any
 
-logger = logging.getLogger("hvea.phase5")
+logger = logging.getLogger("hvea.phase4")
 
 CHUNK = 1024 * 1024
 
@@ -126,7 +126,7 @@ def metric_acquisition_speed(run: dict[str, Any]) -> MetricResult:
     duration = run["report"]["manifest"]["duration_seconds"]
     return MetricResult(
         metric="acquisition_speed",
-        source="Cihan, Phase 5",
+        source="Phase 4 validation",
         value=duration,
         units="seconds",
         detail={
@@ -197,7 +197,7 @@ def metric_storage_reduction(
     ratio = (partial_size / baseline_size) if baseline_size else 0
     return MetricResult(
         metric="storage_reduction",
-        source="Cihan, Phase 5",
+        source="Phase 4 validation",
         value=round(ratio, 6),
         units="ratio (partial/baseline media)",
         detail={
@@ -312,7 +312,7 @@ def metric_artifact_preservation(
 
     return MetricResult(
         metric="artifact_preservation",
-        source="Cihan, Phase 5",
+        source="Phase 4 validation",
         value=round(conservative, 6),
         units="fraction (files only; conservative)",
         detail=detail,

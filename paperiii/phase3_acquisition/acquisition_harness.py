@@ -18,7 +18,7 @@ dependency-context layers have completed in earlier groups.
 
 The harness deliberately treats the mounted image as a read-only file tree.
 That decoupling lets the same harness drive multiple real acquisition
-mechanisms in Phase 5 (sifting-style file extraction, raw-sector
+mechanisms during acquisition (sifting-style file extraction, raw-sector
 acquisition, etc.) without changing the reasoning above.
 
 Usage:

@@ -14,7 +14,7 @@ Partition offset: sector 2048 (Vista alignment)
 ## Phase 3 acquisition
 - Acquired: 1,305 files, 1,298 MB; not_found 77; failed 0; 6s
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.066 (93.4% reduction) | measured |
@@ -26,7 +26,7 @@ Partition offset: sector 2048 (Vista alignment)
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Cross-temporal finding (Terry Nov 12 -> Nov 19): layers move in OPPOSITE directions
 | Layer | Nov 12 | Nov 19 | Change | Reading |

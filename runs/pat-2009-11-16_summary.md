@@ -14,7 +14,7 @@ Partition offset: sector 63 (XP)
 ## Phase 3 acquisition
 - Acquired: 6,159 files, 791 MB; not_found 123; failed 0; 9s
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.064 (93.6% reduction) | measured |
@@ -26,7 +26,7 @@ Partition offset: sector 63 (XP)
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Findings
 - Browser-heavy subject: Layer F = 5,807 targets, ~91% of acquisition,

@@ -14,7 +14,7 @@ Partition offset: sector 63 (XP)
 ## Phase 3 acquisition
 - Acquired: 2,672 files, 1,137 MB; not_found 99; failed 0; 14s
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.092 (90.8% reduction) | measured |
@@ -26,7 +26,7 @@ Partition offset: sector 63 (XP)
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Findings
 - Richest user-content layer of the XP subjects: Layer C = 773. This drives

@@ -33,9 +33,11 @@ Storage-reduction denominator: **ewfinfo media size** (corrected; see note below
 - **Three OS variants** (XP SP3, Vista SP2, Windows 11) validated with their
   respective HVEA graphs; each graph populated all ten layers first-try with
   no adjustment.
-- **Defensibility = n/a** on every image, by design, pending advisor rubric
-  approval. Once approved, Phase 5 re-runs populate this metric without
-  re-acquisition.
+- **Defensibility:** assessed qualitatively rather than as a numeric score.
+  In this study it was evaluated through independent expert review of the
+  partial images (documented in the manuscript); a pre-registered
+  quantitative rubric is identified as future work. The validation harness
+  reports defensibility as `n/a` by default.
 
 ## Cross-image findings
 

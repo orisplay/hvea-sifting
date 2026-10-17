@@ -11,7 +11,7 @@ Graph: hvea_graph_winxp.json
 ## Phase 3 acquisition
 - Acquired: 3,054 files, 1.1 GB; not_found 115; failed 0; 25s
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.105 (89.5% reduction) | measured |
@@ -23,7 +23,7 @@ Graph: hvea_graph_winxp.json
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Finding
 Recoverable preservation 1.0: every targeted file with recoverable data

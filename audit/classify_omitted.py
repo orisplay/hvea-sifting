@@ -3,9 +3,10 @@
 import json, sys, re
 from collections import Counter
 
-TRACE = sys.argv[1] if len(sys.argv) > 1 else \
-    "/home/kali/selective-imaging/runs/W11_HVEA_14D_hvea_reasoning.jsonl"
-RESIDUE_OUT = sys.argv[2] if len(sys.argv) > 2 else "/tmp/omitted_residue.txt"
+if len(sys.argv) < 2:
+    sys.exit("usage: classify_omitted.py <reasoning_trace.jsonl> [residue_out.txt]")
+TRACE = sys.argv[1]
+RESIDUE_OUT = sys.argv[2] if len(sys.argv) > 2 else "omitted_residue.txt"
 
 USERROOT = re.compile(r'^/(users|documents and settings)/[^/]+', re.I)
 

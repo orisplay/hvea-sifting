@@ -15,7 +15,7 @@ Partition offset: sector 63 (XP)
 ## Phase 3 acquisition
 - Acquired: 2,388 files, 1,226 MB; not_found 392; failed 0; 7s
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.084 (91.6% reduction) | measured |
@@ -27,7 +27,7 @@ Partition offset: sector 63 (XP)
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Cross-capture finding (Jo old computer Nov 20 vs Dec 7): attribution stable, behavior varies
 | Layer | Jo old (Nov 20) | Jo Dec 7 | Reading |

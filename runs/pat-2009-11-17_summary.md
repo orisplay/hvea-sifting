@@ -13,7 +13,7 @@ Partition offset: sector 63 (XP)
 ## Phase 3 acquisition
 - Acquired: 6,455 files, 827 MB; not_found 97; failed 0; 10s
 
-## Phase 5 validation
+## Phase 4 validation
 | Metric | Value | Status |
 |---|---|---|
 | Storage reduction | 0.067 (93.3% reduction) | measured |
@@ -25,7 +25,7 @@ Partition offset: sector 63 (XP)
 | Integrity | 1.0 | pass |
 | Transparency | full | pass |
 | Explainability | 1.0 | pass |
-| Defensibility | n/a | rubric pending |
+| Defensibility | n/a | not scored |
 
 ## Cross-temporal finding (Pat Nov 16 -> Nov 17)
 HVEA tracked Pat's documented day-to-day behavioral escalation at the

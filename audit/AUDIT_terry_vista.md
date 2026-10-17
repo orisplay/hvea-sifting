@@ -45,7 +45,7 @@ user-space content left behind.
 | Omitted entries | 308,833 | 28,782 | 116,745 |
 | Classified inert | 99.99% | 99.16% | 99.96% |
 | User-authored files omitted | 0 | 0 | 0 |
-| Real content acquired (Layer C) | documents, installers | 1,060 files (camera photos/video) | 1,257 entries (downloaded installer) |
+| Real user content acquired | documents, installers | 1,060 files (camera photos/video) | 1,257 entries (downloaded installer) |
 | Omitted user-space character | empty dirs, OS defaults | OS sample pictures, blank templates | Vista sample media, default bookmarks |
 
 Across three operating systems and three markedly different disk profiles
