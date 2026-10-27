@@ -6,8 +6,9 @@ Research code, configuration, and validation artifacts for Paper III of the diss
 *"Defensible Intelligent Imaging and Reduction for Scalable Digital Forensics."*
 
 > **Status:** Public. This repository accompanies the submitted manuscript and is released to
-> permit independent reproduction of the reasoning, acquisition, and negative-space audit. A
-> versioned Zenodo DOI will be minted at publication.
+> permit independent reproduction of the reasoning, acquisition, and negative-space audit. The
+> controlled Windows 11 dataset is openly archived at Zenodo, DOI
+> [10.5281/zenodo.23689699](https://doi.org/10.5281/zenodo.23689699).
 
 ## What this is
 
@@ -35,6 +36,7 @@ content among hundreds of thousands of omitted entries.
   Systematic Mapping Review of Digital Forensics.* Electronics, 2026.
   Establishes the field-level defensibility vocabulary (completeness, integrity, transparency,
   explainability, defensibility) that this work's validation harness operationalizes.
+
 * **Paper II**: *A Layered High-Value Evidence Area (HVEA) Model for Selective Windows Digital
   Forensics Imaging.* Electronics, 2026.
   Defines the ten artifact layers, four tiers, and evidentiary dependencies that Paper III
@@ -96,19 +98,25 @@ python3 audit/classify_omitted.py runs/traces/jo-2009-11-20-oldComputer_hvea_rea
 ```
 
 Traces are included for all eight M57 images (charlie ×2, jo ×2, pat ×2, terry ×2). The controlled
-Windows 11 image and its reasoning trace contain synthetic activity generated for this study and
-are available from the corresponding author on reasonable request.
+Windows 11 image contains synthetic activity generated for this study and is openly archived at
+Zenodo (DOI [10.5281/zenodo.23689699](https://doi.org/10.5281/zenodo.23689699), CC-BY-4.0); its
+reasoning trace is regenerable from the image with the Phase 1 reasoner.
 
 ## Datasets
 
 * **M57-Patents** (Charlie, Jo, Pat, Terry × two captures each) - Windows XP SP3 and
   Vista Business SP2 images from the publicly distributed M57 scenario.
-* **W11_HVEA_14D** - controlled Windows 11 image, 14-day activity protocol.
+  
+* **W11_HVEA_14D** - controlled Windows 11 image, 14-day activity protocol. Openly archived at
+  Zenodo: [10.5281/zenodo.23689699](https://doi.org/10.5281/zenodo.23689699) (CC-BY-4.0).
 
 ## Citation
 
 Aigbogun, O. O.; Varol, C.; Shashidhar, N. *HVEA-SIFTING: Dependency-Driven Selective Acquisition
 and Negative-Space Auditing for Defensible Windows Forensic Imaging.* 2026. (DOI pending.)
+
+Dataset: Aigbogun, O. O.; Varol, C.; Shashidhar, N. *W11_HVEA_14D - Controlled Windows 11 14-Day
+Activity Forensic Image* [Data set]. Zenodo, 2026. https://doi.org/10.5281/zenodo.23689699
 
 ## License
 
